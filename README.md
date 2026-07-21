@@ -21,8 +21,8 @@ a sostener negocio, equipos y cambios.
 ## Estado editorial
 
 El repositorio acaba de entrar en desarrollo. Los capítulos `01. Monolito
-modular` y `02. Arquitectura hexagonal` están en estado `draft`; el resto de
-capítulos sigue en estado `planned`.
+modular`, `02. Arquitectura hexagonal` y `03. Clean Architecture` están en
+estado `draft`; el resto de capítulos sigue en estado `planned`.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
 de Joel sigue siendo obligatoria antes de considerar el curso listo para
@@ -73,7 +73,7 @@ Este repositorio no reemplaza:
 |---|----------|----------------|--------|
 | 01 | Monolito modular | `src/modular_monolith.rs` | draft |
 | 02 | Arquitectura hexagonal | `src/hexagonal_architecture.rs` | draft |
-| 03 | Clean Architecture | `src/clean_architecture.rs` | planned |
+| 03 | Clean Architecture | `src/clean_architecture.rs` | draft |
 | 04 | Domain-Driven Design | `src/domain_driven_design.rs` | planned |
 | 05 | CQRS | `src/cqrs.rs` | planned |
 | 06 | Event sourcing | `src/event_sourcing.rs` | planned |
