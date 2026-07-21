@@ -3,6 +3,7 @@ pub const COURSE_NAME: &str = "Arquitectura de software en Rust";
 pub mod clean_architecture;
 pub mod cqrs;
 pub mod domain_driven_design;
+pub mod event_driven_architecture;
 pub mod event_sourcing;
 pub mod hexagonal_architecture;
 pub mod modular_monolith;
@@ -96,6 +97,15 @@ mod tests {
             InMemoryReservationRepository as DddReservationRepository, ReservationRepository,
         },
         DomainDrivenDesignError,
+    };
+    use super::event_driven_architecture::{
+        bus::InMemoryEventBus,
+        consumers::{
+            EventConsumer, FailingConsumer, NotificationConsumer, ReservationAnalyticsConsumer,
+        },
+        contracts::{IntegrationEvent, ReservationConfirmed as EdaReservationConfirmed},
+        producers::ReservationProducer,
+        EventDrivenArchitectureError,
     };
     use super::event_sourcing::{
         commands::{
@@ -484,5 +494,73 @@ mod tests {
         assert_eq!(audit.len(), 2);
         assert_eq!(audit[0].kind(), ReservationEventKind::ReservationRequested);
         assert_eq!(audit[1].kind(), ReservationEventKind::ReservationCancelled);
+    }
+
+    #[test]
+    fn event_driven_producer_publishes_stable_contract() {
+        let mut bus = InMemoryEventBus::default();
+
+        let event = ReservationProducer::confirm_reservation(
+            "RSV-EDA-001",
+            "flight-mx-eda",
+            "customer-eda-001",
+            &mut bus,
+        )
+        .expect("published integration event");
+
+        assert_eq!(event.contract_name(), "ReservationConfirmed");
+        assert_eq!(event.contract_version(), 1);
+        assert_eq!(event.reservation_id(), "RSV-EDA-001");
+        assert_eq!(bus.published_count(), 1);
+    }
+
+    #[test]
+    fn event_driven_bus_fans_out_to_consumers() {
+        let event = EdaReservationConfirmed::new("EVT-EDA-002", "RSV-EDA-002", "customer-eda-002")
+            .expect("valid event");
+        let mut notifications = NotificationConsumer::default();
+        let mut analytics = ReservationAnalyticsConsumer::default();
+
+        InMemoryEventBus::dispatch(
+            &event,
+            [
+                &mut notifications as &mut dyn EventConsumer,
+                &mut analytics as &mut dyn EventConsumer,
+            ],
+        )
+        .expect("fan-out succeeds");
+
+        assert_eq!(notifications.sent_count(), 1);
+        assert_eq!(analytics.confirmed_count(), 1);
+    }
+
+    #[test]
+    fn event_driven_consumer_is_idempotent() {
+        let event = EdaReservationConfirmed::new("EVT-EDA-003", "RSV-EDA-003", "customer-eda-003")
+            .expect("valid event");
+        let mut notifications = NotificationConsumer::default();
+
+        notifications.handle(&event).expect("first delivery");
+        notifications.handle(&event).expect("duplicate delivery");
+
+        assert_eq!(notifications.sent_count(), 1);
+    }
+
+    #[test]
+    fn event_driven_failing_consumer_does_not_delete_published_event() {
+        let mut bus = InMemoryEventBus::default();
+        let event = ReservationProducer::confirm_reservation(
+            "RSV-EDA-004",
+            "flight-mx-eda",
+            "customer-eda-004",
+            &mut bus,
+        )
+        .expect("published integration event");
+        let mut failing = FailingConsumer;
+
+        let result = InMemoryEventBus::dispatch(&event, [&mut failing as &mut dyn EventConsumer]);
+
+        assert_eq!(result, Err(EventDrivenArchitectureError::ConsumerFailed));
+        assert_eq!(bus.published_count(), 1);
     }
 }
