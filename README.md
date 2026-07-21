@@ -70,7 +70,7 @@ Este repositorio no reemplaza:
 
 | # | Capítulo | Módulo inicial | Estado |
 |---|----------|----------------|--------|
-| 01 | Monolito modular | `src/modular_monolith.rs` | planned |
+| 01 | Monolito modular | `src/modular_monolith.rs` | draft |
 | 02 | Arquitectura hexagonal | `src/hexagonal_architecture.rs` | planned |
 | 03 | Clean Architecture | `src/clean_architecture.rs` | planned |
 | 04 | Domain-Driven Design | `src/domain_driven_design.rs` | planned |
