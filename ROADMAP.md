@@ -67,8 +67,8 @@ especificación conceptual de límites de servicio, datos propios, contratos,
 operación, alternativas, invariantes, costos y modos de falla, además de un
 modelo Rust mínimo con pruebas para contratos explícitos, ownership de datos y
 falla remota visible. También cuenta con diagrama Mermaid y ejemplos
-progresivos. Todavía requiere ejercicios, solución sugerida y análisis de
-costos.
+progresivos, ejercicios, solución sugerida y análisis de costos. Todavía
+requiere revisión humana antes de subir de estado editorial.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -128,5 +128,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `08. Microservicios`: ejercicios, solución
-sugerida y análisis de costos.
+Cerrar el milestone `08. Microservicios` si todos sus issues quedaron cerrados
+y continuar con `09. Cierre editorial y publicación`.

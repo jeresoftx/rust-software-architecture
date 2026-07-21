@@ -40,7 +40,7 @@ en estado `planned`. `08. Microservicios` ya cuenta con especificación
 conceptual de límites de servicio, datos propios, operación, costos,
 alternativas, invariantes y modos de falla, además de un modelo Rust mínimo
 para contratos, ownership de datos y falla remota visible, diagrama Mermaid y
-ejemplos progresivos.
+ejemplos progresivos, ejercicios, solución sugerida y análisis de costos.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
 de Joel sigue siendo obligatoria antes de considerar el curso listo para

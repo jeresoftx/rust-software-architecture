@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#35](https://github.com/jeresoftx/rust-software-architecture/issues/35), [#31](https://github.com/jeresoftx/rust-software-architecture/issues/31), [#29](https://github.com/jeresoftx/rust-software-architecture/issues/29) |
+| Issue | [#35](https://github.com/jeresoftx/rust-software-architecture/issues/35), [#31](https://github.com/jeresoftx/rust-software-architecture/issues/31), [#29](https://github.com/jeresoftx/rust-software-architecture/issues/29), [#36](https://github.com/jeresoftx/rust-software-architecture/issues/36) |
 | PR | Pendiente |
 | Milestone | `08. Microservicios` |
 | Módulo Rust | `src/microservices.rs` |
 | Ejemplos | `examples/08_basico.rs`, `examples/08_intermedio.rs`, `examples/08_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/08_microservicios.rs`, `examples/08_solucion.rs` |
 | Diagramas | `diagrams/08-microservicios.md` |
 
 Microservicios significa partir un sistema en servicios pequeños, autónomos y
@@ -141,6 +141,12 @@ Su beneficio principal es la autonomía evolutiva cuando el dominio y la
 organización ya justifican esa inversión. Su costo principal es que el sistema
 deja de fallar como un proceso único y empieza a fallar como una red viva.
 
+El análisis de costos vive también como nota educativa en
+`benches/08-microservicios-costos.md`. Este capítulo no usa `cargo bench`
+porque medir el modelo en memoria no enseña la decisión arquitectónica; lo
+importante es comparar autonomía, ownership, contratos, fallas parciales,
+observabilidad y costo operativo.
+
 ## 7. Modos de falla
 
 Microservicios fallan cuando:
@@ -215,15 +221,80 @@ estar caída y el servicio local debe responder sin inventar éxito.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: reconocer autonomía real
+
+Lee `src/microservices.rs` y responde:
+
+1. ¿Qué tipo representa el contrato de solicitud entre servicios?
+2. ¿Qué trait expone el nombre y la versión de un contrato?
+3. ¿Qué estructura registra ownership de tablas?
+4. ¿Qué error aparece cuando dos servicios reclaman la misma tabla?
+5. ¿Qué error representa una dependencia remota caída?
+
+La meta es distinguir servicio, contrato, datos propios y falla parcial. Una
+buena respuesta explica por qué separar código sin separar ownership no produce
+autonomía real.
+
+### Nivel 2: confirmar sin compartir tablas
+
+Usa `DataOwnershipCatalog` para asignar tablas a reservas, pagos e inventario.
+Después confirma una reserva con `ReservationService`, `PaymentService` e
+`InventoryService`. Verifica que cada servicio cambie solo su propio estado y
+que la confirmación viaje por contrato explícito.
+
+Pistas:
+
+- `ConfirmReservationRequest::new` valida el contrato de entrada;
+- `ReservationService::confirm` coordina pagos e inventario por API explícita;
+- `PaymentService::authorized_count()` solo cambia dentro de pagos;
+- `InventoryService::held_count()` solo cambia dentro de inventario;
+- ningún ejercicio debe leer tablas internas de otro servicio.
+
+### Nivel 3: decidir si conviene distribuir
+
+Imagina que el motor de reservas creció: pagos tiene auditoría y controles
+propios, inventario cambia por proveedores externos, y reservas necesita
+desplegarse más seguido. Antes de partir el sistema, responde:
+
+- ¿qué frontera separarías primero y por qué?
+- ¿qué datos gobernaría cada servicio?
+- ¿qué contrato versionarías para evitar romper consumidores?
+- ¿qué harías cuando pagos no responde?
+- ¿qué señales de observabilidad exigirías antes de producción?
+- ¿cuándo seguirías prefiriendo un monolito modular?
+
+Una buena respuesta no idealiza microservicios. Debe comparar autonomía contra
+costo operativo y explicar qué equipo o responsable cuidaría cada frontera.
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/08_microservicios.rs`](../examples/soluciones/08_microservicios.rs).
+También se compila como `examples/08_solucion.rs`.
+
+Una buena solución conserva estas ideas:
+
+- cada servicio reclama datos propios;
+- la confirmación cruza contratos explícitos;
+- pagos e inventario cambian su propio estado, no el de reservas;
+- una falla remota queda visible y no confirma estado local falso;
+- la solución no introduce infraestructura externa antes de entender la
+  frontera.
+
+Ejecutar la solución:
+
+```bash
+cargo run --example 08_solucion
+```
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
-soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
-de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con
+especificación conceptual, modelo Rust mínimo, diagrama Mermaid, ejemplos
+progresivos, ejercicios, solución sugerida y análisis de costos. Requiere
+revisión humana explícita de Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -238,3 +309,5 @@ de estado editorial.
   fallas remotas visibles sin `unsafe` ni dependencias externas.
 - Los ejemplos progresivos enseñan ownership de datos, colaboración por
   contratos y falla parcial sin introducir infraestructura externa.
+- Los costos se enseñan como benchmark conceptual: autonomía, ownership,
+  contratos y operación importan más que medir el modelo en memoria.
