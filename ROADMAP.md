@@ -62,6 +62,12 @@ idempotencia y aislamiento de fallas. También cuenta con diagrama Mermaid y
 ejemplos progresivos, ejercicios, solución sugerida y análisis de costos.
 Todavía requiere revisión humana antes de subir de estado editorial.
 
+El capítulo `08. Microservicios` está en estado `draft`: ya cuenta con
+especificación conceptual de límites de servicio, datos propios, contratos,
+operación, alternativas, invariantes, costos y modos de falla. Todavía requiere
+modelo Rust mínimo, diagrama, ejemplos, ejercicios, solución sugerida y análisis
+de costos.
+
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
 correspondiente y etiquetado para mantener la regla del repositorio: un issue,
@@ -100,7 +106,7 @@ La progresión esperada es:
 | 05 | CQRS | draft |
 | 06 | Event sourcing | draft |
 | 07 | Arquitectura orientada a eventos | draft |
-| 08 | Microservicios | planned |
+| 08 | Microservicios | draft |
 
 ## Alineación RFC-0001
 
@@ -120,5 +126,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Cerrar el milestone `07. Arquitectura orientada a eventos` si todos sus issues
-quedaron cerrados y continuar con `08. Microservicios`.
+Continuar el bloque autónomo de `08. Microservicios`: modelo Rust mínimo,
+diagrama y ejemplos, ejercicios, solución sugerida y análisis de costos.
