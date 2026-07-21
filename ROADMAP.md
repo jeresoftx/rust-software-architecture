@@ -15,8 +15,8 @@ y el plan maestro en forma de checklist.
 
 El capítulo `01. Monolito modular` está en estado `draft`: ya cuenta con
 especificación conceptual, modelo Rust mínimo, diagrama Mermaid y ejemplos
-progresivos. Todavía requiere ejercicios, soluciones y costos finales antes de
-considerarse completo para revisión humana.
+progresivos, ejercicios, solución sugerida y análisis de costos. Todavía
+requiere revisión humana antes de subir de estado editorial.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -76,5 +76,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `01. Monolito modular`: ejercicios, soluciones
-y costos.
+Cerrar el milestone `01. Monolito modular` cuando todos sus issues estén
+cerrados y continuar con `02. Arquitectura hexagonal`.

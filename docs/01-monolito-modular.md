@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#5](https://github.com/jeresoftx/rust-software-architecture/issues/5), [#7](https://github.com/jeresoftx/rust-software-architecture/issues/7), [#10](https://github.com/jeresoftx/rust-software-architecture/issues/10) |
+| Issue | [#5](https://github.com/jeresoftx/rust-software-architecture/issues/5), [#6](https://github.com/jeresoftx/rust-software-architecture/issues/6), [#7](https://github.com/jeresoftx/rust-software-architecture/issues/7), [#10](https://github.com/jeresoftx/rust-software-architecture/issues/10) |
 | PR | Pendiente |
 | Milestone | `01. Monolito modular` |
 | Módulo Rust | `src/modular_monolith.rs` |
 | Ejemplos | `examples/01_basico.rs`, `examples/01_intermedio.rs`, `examples/01_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/01_monolito_modular.rs` |
 | Diagramas | `diagrams/01-monolito-modular.md` |
 
 Un monolito modular es un sistema que se despliega como una sola unidad, pero
@@ -130,6 +130,13 @@ Su beneficio principal es que evita pagar costos distribuidos antes de tiempo.
 Su costo principal es cultural: exige respetar límites aunque el compilador no
 pueda expresar todos los acuerdos arquitectónicos.
 
+El análisis de costos vive también en
+[`benches/01-monolito-modular-costos.md`](../benches/01-monolito-modular-costos.md).
+Este capítulo no usa benchmark de throughput porque la decisión no se toma por
+velocidad entre llamadas dentro del mismo proceso. El benchmark educativo es de
+claridad: contratos internos pequeños, visibilidad mínima e invariantes
+probadas.
+
 ## 7. Modos de falla
 
 Un monolito modular falla cuando:
@@ -213,16 +220,70 @@ parciales.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: identificar límites
+
+Lee `src/modular_monolith.rs` y responde:
+
+1. ¿Qué módulo conserva la capacidad disponible?
+2. ¿Qué módulo decide si una cotización expiró?
+3. ¿Qué módulo coordina la confirmación de una reserva?
+4. ¿Qué campos privados impiden mutaciones accidentales desde otros módulos?
+
+La meta no es memorizar nombres. La meta es poder explicar por qué cada regla
+vive donde vive.
+
+### Nivel 2: agregar una regla pequeña
+
+Agrega una prueba para rechazar una cotización con precio cero. Después ajusta
+el código mínimo si hiciera falta.
+
+Pistas:
+
+- usa `Money::mxn(0)`;
+- espera `ModularMonolithError::InvalidMoney`;
+- la prueba debe fallar si el sistema acepta una cotización sin precio real.
+
+### Nivel 3: defender una frontera
+
+Propón una nueva operación `cancelar_reserva`. Antes de escribir código,
+responde:
+
+- ¿pertenece a `booking`, `inventory` o requiere colaboración entre ambos?
+- ¿qué invariante protege?
+- ¿qué contrato interno necesitarías?
+- ¿qué costo agrega si el capítulo sigue siendo un monolito modular?
+- ¿qué cambiaría si esto se separara en microservicios?
+
+La respuesta aceptable debe nombrar tradeoffs, no solo dibujar otro módulo.
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/01_monolito_modular.rs`](../examples/soluciones/01_monolito_modular.rs).
+También se compila como `examples/01_solucion.rs` para evitar que el material de
+solución se vuelva código muerto.
+
+Una buena solución conserva estas ideas:
+
+- `booking` coordina la intención de confirmar;
+- `pricing` produce una cotización válida con vigencia;
+- `inventory` protege su propia capacidad;
+- la reserva no se confirma si una regla previa falla;
+- el flujo se puede probar sin base de datos, red ni framework.
+
+Para el ejercicio de cancelación, una respuesta razonable es mantener la
+operación en `booking` y pedir a `inventory` una operación interna explícita
+para liberar capacidad. La trampa sería permitir que `booking` edite campos
+internos de inventario "porque está en el mismo binario".
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
 Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
-Rust mínimo, diagrama y ejemplos progresivos; todavía requiere ejercicios,
-soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
-de estado editorial.
+Rust mínimo, diagrama, ejemplos progresivos, ejercicios, solución sugerida y
+análisis de costos. Requiere revisión humana explícita de Joel antes de avanzar
+a `reviewed` o `published`.
 
 ### Decisiones registradas
 
@@ -232,3 +293,5 @@ de estado editorial.
 - El motor de reservas se divide inicialmente en inventario, cotización y
   reservas.
 - El capítulo no presenta microservicios como evolución obligatoria.
+- Este capítulo no usa benchmark de throughput; declara un benchmark educativo
+  de claridad, límites e invariantes.
