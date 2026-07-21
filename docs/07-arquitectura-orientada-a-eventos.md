@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#33](https://github.com/jeresoftx/rust-software-architecture/issues/33), [#32](https://github.com/jeresoftx/rust-software-architecture/issues/32), [#30](https://github.com/jeresoftx/rust-software-architecture/issues/30) |
+| Issue | [#33](https://github.com/jeresoftx/rust-software-architecture/issues/33), [#32](https://github.com/jeresoftx/rust-software-architecture/issues/32), [#30](https://github.com/jeresoftx/rust-software-architecture/issues/30), [#34](https://github.com/jeresoftx/rust-software-architecture/issues/34) |
 | PR | Pendiente |
 | Milestone | `07. Arquitectura orientada a eventos` |
 | Módulo Rust | `src/event_driven_architecture.rs` |
 | Ejemplos | `examples/07_basico.rs`, `examples/07_intermedio.rs`, `examples/07_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/07_arquitectura_orientada_a_eventos.rs`, `examples/07_solucion.rs` |
 | Diagramas | `diagrams/07-arquitectura-orientada-a-eventos.md` |
 
 La arquitectura orientada a eventos organiza la integración alrededor de hechos
@@ -137,6 +137,12 @@ Su beneficio principal es desacoplar productores y consumidores. Su costo
 principal es que el flujo deja de ser una pila de llamadas obvia y se vuelve
 una red de reacciones que debe observarse y gobernarse.
 
+El análisis de costos vive también como nota educativa en
+`benches/07-arquitectura-orientada-a-eventos-costos.md`. Este capítulo no usa
+`cargo bench` porque medir la velocidad de un bus en memoria no enseña la
+decisión arquitectónica; lo importante es comparar acoplamiento, contratos,
+duplicados, reintentos y trazabilidad.
+
 ## 7. Modos de falla
 
 La arquitectura orientada a eventos falla cuando:
@@ -209,15 +215,80 @@ fallar y un mismo evento puede procesarse más de una vez.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: reconocer piezas del flujo
+
+Lee `src/event_driven_architecture.rs` y responde:
+
+1. ¿Qué tipo representa el evento de integración?
+2. ¿Qué método expone el nombre y la versión del contrato?
+3. ¿Qué pieza publica el evento?
+4. ¿Qué pieza conserva los eventos publicados?
+5. ¿Por qué `NotificationConsumer` no necesita conocer a `ReservationProducer`?
+
+La meta es separar productor, contrato, bus y consumidor. Una buena respuesta
+explica que el productor publica un hecho y no una instrucción técnica para
+mandar correos o construir reportes.
+
+### Nivel 2: construir fan-out idempotente
+
+Usa `ReservationProducer` para confirmar una reserva. Después entrega el mismo
+evento a `NotificationConsumer` y `ReservationAnalyticsConsumer`. Finalmente,
+procesa el evento duplicado en notificaciones y verifica que el conteo no se
+duplique.
+
+Pistas:
+
+- importa el trait `EventConsumer` para llamar `handle`;
+- `InMemoryEventBus::dispatch` acepta consumidores como trait objects;
+- `NotificationConsumer::sent_count()` debe permanecer en `1`;
+- `ReservationAnalyticsConsumer::confirmed_count()` debe reflejar una reserva
+  medida;
+- el productor no debe cambiar por agregar consumidores.
+
+### Nivel 3: defender contratos y fallas
+
+Imagina que el motor de reservas publica `ReservationConfirmed` hacia
+notificaciones, analítica, facturación e inventario. Antes de agregar un broker
+real, responde:
+
+- ¿qué campos mínimos debe conservar el contrato v1?
+- ¿qué harías si facturación necesita un campo nuevo?
+- ¿cómo evitarías duplicar cargos ante reentregas?
+- ¿qué información necesitarías para reprocesar un consumidor fallido?
+- ¿cuándo preferirías una llamada síncrona en vez de un evento?
+
+Una buena respuesta habla de contratos versionados, idempotencia, trazabilidad
+y límites. No basta decir "pongamos Kafka" si no se explica qué hecho cruza el
+límite y cómo se gobierna.
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/07_arquitectura_orientada_a_eventos.rs`](../examples/soluciones/07_arquitectura_orientada_a_eventos.rs).
+También se compila como `examples/07_solucion.rs`.
+
+Una buena solución conserva estas ideas:
+
+- el productor publica un hecho con contrato estable;
+- el fan-out no introduce dependencia directa hacia consumidores concretos;
+- los consumidores idempotentes no duplican efectos críticos;
+- una falla de consumidor no borra el evento publicado;
+- la solución no agrega infraestructura externa antes de entender el diseño.
+
+Ejecutar la solución:
+
+```bash
+cargo run --example 07_solucion
+```
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
-ejercicios, soluciones, costos finales y revisión humana explícita de Joel
-antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con
+especificación conceptual, modelo Rust mínimo, diagrama Mermaid, ejemplos
+progresivos, ejercicios, solución sugerida y análisis de costos. Requiere
+revisión humana explícita de Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -234,3 +305,5 @@ antes de avanzar de estado editorial.
 - Los ejemplos progresivos muestran contrato, fan-out, falla de consumidor e
   idempotencia sin introducir infraestructura externa antes de entender el
   diseño.
+- Los costos se enseñan como benchmark conceptual: contratos, duplicados,
+  reintentos y trazabilidad importan más que la velocidad de un bus en memoria.
