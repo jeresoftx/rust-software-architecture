@@ -3,7 +3,7 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#23](https://github.com/jeresoftx/rust-software-architecture/issues/23) |
+| Issue | [#23](https://github.com/jeresoftx/rust-software-architecture/issues/23), [#24](https://github.com/jeresoftx/rust-software-architecture/issues/24) |
 | PR | Pendiente |
 | Milestone | `06. Event sourcing` |
 | Módulo Rust | `src/event_sourcing.rs` |
@@ -97,6 +97,10 @@ El objetivo no es crear un event store productivo. El objetivo es que el lector
 vea que el estado actual puede derivarse de hechos, y que esos hechos tienen
 orden, significado e invariantes.
 
+El modelo se implementa en `src/event_sourcing.rs` y se valida con pruebas que
+cubren append-only events, rehidratación determinista, rechazo de confirmación
+sin solicitud previa e historia de auditoría conservada en orden.
+
 ## 5. Invariantes
 
 El capítulo debe proteger estas reglas:
@@ -172,9 +176,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere modelo Rust
-mínimo, diagrama, ejemplos, ejercicios, soluciones, costos finales y revisión
-humana explícita de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
+ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
+Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -185,3 +189,5 @@ humana explícita de Joel antes de avanzar de estado editorial.
 - Los eventos se nombran como hechos aceptados, no como solicitudes ni comandos.
 - La historia del agregado es parte del dominio; no se trata como log técnico
   secundario.
+- El modelo Rust mínimo protege rehidratación determinista y stream append-only
+  sin `unsafe` ni dependencias externas.
