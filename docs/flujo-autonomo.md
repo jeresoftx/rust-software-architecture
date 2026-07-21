@@ -37,6 +37,8 @@ capítulos como `reviewed` o `published`.
 Antes de fusionar un PR propio en modo autónomo, deben cumplirse todas:
 
 - El issue existe, está asignado a `jeresoftx`, tiene milestone y labels.
+- El issue está dentro del GitHub Project del curso.
+- La vista principal del GitHub Project está agrupada por `Milestone`.
 - El PR resuelve un solo issue.
 - El PR tiene un solo commit principal.
 - El PR está asignado a `jeresoftx`, ligado al mismo milestone del issue y
@@ -49,6 +51,24 @@ Antes de fusionar un PR propio en modo autónomo, deben cumplirse todas:
 - El cambio no agrega dependencias externas no triviales.
 - El cambio no marca capítulos como `reviewed` ni `published`.
 - El resumen del PR declara que fue fusionado en modo de revisión diferida.
+
+## Project y vista canónica
+
+Joel quiere que el GitHub Project de cada curso se lea por milestone. La vista
+principal no debe quedarse como lista plana: debe agrupar los issues por
+`Milestone`, porque cada milestone representa una fase o capítulo del plan.
+
+Para verificarlo:
+
+1. Abrir el Project del curso.
+2. Abrir el menú `View`.
+3. Confirmar que `Group by` diga `Milestone`.
+4. Si GitHub muestra `Unsaved changes`, usar `Save view` y después confirmar
+   el diálogo `Save`.
+
+Antes de iniciar un bloque autónomo, la IA debe confirmar que el Project sigue
+asociado al repositorio, contiene los issues del bloque y conserva
+`Group by: Milestone`.
 
 ## Comandos de verificación
 
