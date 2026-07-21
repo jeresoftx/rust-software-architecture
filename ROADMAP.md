@@ -26,8 +26,9 @@ humana antes de subir de estado editorial.
 
 El capítulo `03. Clean Architecture` está en estado `draft`: ya cuenta con
 especificación conceptual de entidades, casos de uso, dirección de dependencias,
-problema, alternativas e invariantes. Todavía requiere modelo Rust mínimo,
-diagrama, ejemplos, ejercicios, solución sugerida y análisis de costos.
+problema, alternativas e invariantes, además de un modelo Rust mínimo con
+pruebas para entidad, caso de uso y repositorio. Todavía requiere diagrama,
+ejemplos, ejercicios, solución sugerida y análisis de costos.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -87,5 +88,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `03. Clean Architecture`: modelo Rust mínimo,
-capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
+Continuar el bloque autónomo de `03. Clean Architecture`: capítulo con diagrama
+y ejemplos, ejercicios, soluciones y costos.
