@@ -24,6 +24,11 @@ invariantes, modelo Rust mínimo, diagrama Mermaid, ejemplos progresivos,
 ejercicios, solución sugerida y análisis de costos. Todavía requiere revisión
 humana antes de subir de estado editorial.
 
+El capítulo `03. Clean Architecture` está en estado `draft`: ya cuenta con
+especificación conceptual de entidades, casos de uso, dirección de dependencias,
+problema, alternativas e invariantes. Todavía requiere modelo Rust mínimo,
+diagrama, ejemplos, ejercicios, solución sugerida y análisis de costos.
+
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
 correspondiente y etiquetado para mantener la regla del repositorio: un issue,
@@ -57,7 +62,7 @@ La progresión esperada es:
 |---|----------|--------|
 | 01 | Monolito modular | draft |
 | 02 | Arquitectura hexagonal | draft |
-| 03 | Clean Architecture | planned |
+| 03 | Clean Architecture | draft |
 | 04 | Domain-Driven Design | planned |
 | 05 | CQRS | planned |
 | 06 | Event sourcing | planned |
@@ -82,5 +87,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Cerrar el milestone `02. Arquitectura hexagonal` cuando todos sus issues estén
-cerrados y continuar con `03. Clean Architecture`.
+Continuar el bloque autónomo de `03. Clean Architecture`: modelo Rust mínimo,
+capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
