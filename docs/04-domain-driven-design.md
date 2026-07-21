@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#19](https://github.com/jeresoftx/rust-software-architecture/issues/19), [#16](https://github.com/jeresoftx/rust-software-architecture/issues/16) |
+| Issue | [#19](https://github.com/jeresoftx/rust-software-architecture/issues/19), [#16](https://github.com/jeresoftx/rust-software-architecture/issues/16), [#17](https://github.com/jeresoftx/rust-software-architecture/issues/17) |
 | PR | Pendiente |
 | Milestone | `04. Domain-Driven Design` |
 | Módulo Rust | `src/domain_driven_design.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/04_basico.rs`, `examples/04_intermedio.rs`, `examples/04_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/04-domain-driven-design.md` |
 
 Domain-Driven Design no empieza con carpetas ni patrones. Empieza con una
 pregunta incómoda: ¿el código habla el mismo idioma que las personas que
@@ -162,11 +162,57 @@ ubicar bounded contexts dentro de un sistema mayor; y prepara discusiones de
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El diagrama completo vive en
+[`diagrams/04-domain-driven-design.md`](../diagrams/04-domain-driven-design.md).
+
+```mermaid
+flowchart TB
+    LANGUAGE["Lenguaje ubicuo"]
+
+    subgraph "Bounded context: Reservas"
+        VO["Value objects\nReservationId / OfferId / CustomerId / Money"]
+        AGG["Aggregate root\nReservation"]
+        EVT["DomainEvent\nReservationConfirmed / ReservationCancelled"]
+        REPO["ReservationRepository"]
+    end
+
+    MEM["InMemoryReservationRepository"]
+
+    LANGUAGE --> VO
+    VO --> AGG
+    AGG --> EVT
+    REPO --> AGG
+    MEM -. implementa .-> REPO
+```
+
+La flecha desde lenguaje ubicuo hacia value objects no representa una llamada
+de código; representa una decisión de modelado. Las palabras del dominio se
+vuelven tipos que protegen significado. El agregado `Reservation` decide
+transiciones y emite hechos. El repositorio guarda el agregado, pero no decide
+cuándo una transición es válida.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos están pensados para leerse y ejecutarse en orden:
+
+| Nivel | Archivo | Qué enseña |
+|-------|---------|------------|
+| Básico | `examples/04_basico.rs` | Crear y confirmar una reserva usando lenguaje del dominio |
+| Intermedio | `examples/04_intermedio.rs` | Rechazar value objects inválidos antes de crear agregados |
+| Realista | `examples/04_realista.rs` | Guardar y recuperar un agregado confirmado mediante repositorio |
+
+Ejecutarlos:
+
+```bash
+cargo run --example 04_basico
+cargo run --example 04_intermedio
+cargo run --example 04_realista
+```
+
+El ejemplo básico muestra que confirmar una reserva produce un hecho de
+dominio. El intermedio muestra que los value objects son más que aliases de
+`String` o `u64`: protegen lenguaje. El realista muestra que persistir un
+agregado no debe transferir la regla de negocio al repositorio.
 
 ## 11. Ejercicios
 
@@ -176,9 +222,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
-ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
-Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
+soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
+de estado editorial.
 
 ### Decisiones registradas
 
