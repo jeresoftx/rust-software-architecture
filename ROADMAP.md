@@ -132,6 +132,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el milestone `09. Cierre editorial y publicación`: preparar
-navegación mdBook, verificar enlaces y documentar publicación candidata con
-riesgos y revisión humana necesaria.
+Continuar el milestone `09. Cierre editorial y publicación`: documentar
+publicación candidata, riesgos y revisión humana necesaria.

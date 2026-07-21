@@ -26,3 +26,7 @@
 
 - [07. Arquitectura orientada a eventos](./07-arquitectura-orientada-a-eventos.md)
 - [08. Microservicios](./08-microservicios.md)
+
+## Cierre editorial
+
+- [Navegación y enlaces](./09-navegacion-y-enlaces.md)

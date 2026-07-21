@@ -1,0 +1,14 @@
+[book]
+title = "Arquitectura de software en Rust"
+authors = ["Jeresoft Academy"]
+language = "es-MX"
+src = "docs"
+
+[build]
+build-dir = "book"
+create-missing = false
+
+[output.html]
+git-repository-url = "https://github.com/jeresoftx/rust-software-architecture"
+edit-url-template = "https://github.com/jeresoftx/rust-software-architecture/edit/main/{path}"
+site-url = "/rust-software-architecture/"
