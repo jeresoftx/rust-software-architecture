@@ -3,7 +3,7 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#35](https://github.com/jeresoftx/rust-software-architecture/issues/35) |
+| Issue | [#35](https://github.com/jeresoftx/rust-software-architecture/issues/35), [#31](https://github.com/jeresoftx/rust-software-architecture/issues/31) |
 | PR | Pendiente |
 | Milestone | `08. Microservicios` |
 | Módulo Rust | `src/microservices.rs` |
@@ -103,6 +103,10 @@ El objetivo no es crear un framework HTTP. El objetivo es que el lector vea que
 microservicios agrega una frontera operativa real: cada servicio decide sobre
 sus datos y solo colabora mediante contratos explícitos.
 
+El modelo se implementa en `src/microservices.rs` y se valida con pruebas que
+cubren confirmación entre servicios mediante contratos explícitos, ownership de
+tablas por servicio y falla remota visible sin confirmar estado local.
+
 ## 5. Invariantes
 
 El capítulo debe proteger estas reglas:
@@ -178,9 +182,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere modelo Rust
-mínimo, diagrama, ejemplos, ejercicios, soluciones, costos finales y revisión
-humana explícita de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
+ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
+Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -191,3 +195,5 @@ humana explícita de Joel antes de avanzar de estado editorial.
   despliegue y operación; no basta con partir código.
 - El costo central de microservicios es operar fallas parciales y consistencia
   eventual con trazabilidad suficiente.
+- El modelo Rust mínimo protege contratos explícitos, ownership de datos y
+  fallas remotas visibles sin `unsafe` ni dependencias externas.

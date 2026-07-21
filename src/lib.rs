@@ -6,6 +6,7 @@ pub mod domain_driven_design;
 pub mod event_driven_architecture;
 pub mod event_sourcing;
 pub mod hexagonal_architecture;
+pub mod microservices;
 pub mod modular_monolith;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -121,6 +122,14 @@ mod tests {
         application::{ConfirmBooking, ConfirmBookingCommand},
         domain::ReservationStatus,
         HexagonalArchitectureError,
+    };
+    use super::microservices::{
+        contracts::{ConfirmReservationRequest as MicroConfirmReservationRequest, ServiceContract},
+        data_ownership::{DataOwnershipCatalog, ServiceName},
+        inventory::InventoryService,
+        payments::{PaymentGatewayMode, PaymentService},
+        reservations::ReservationService,
+        MicroservicesError,
     };
     use super::modular_monolith::{
         booking::{BookingService, ReservationId},
@@ -562,5 +571,62 @@ mod tests {
 
         assert_eq!(result, Err(EventDrivenArchitectureError::ConsumerFailed));
         assert_eq!(bus.published_count(), 1);
+    }
+
+    #[test]
+    fn microservices_confirm_reservation_through_explicit_contracts() {
+        let mut reservations = ReservationService::default();
+        let mut inventory = InventoryService::with_capacity("OFR-MICRO-001", 2);
+        let mut payments = PaymentService::new(PaymentGatewayMode::Available);
+        let request = MicroConfirmReservationRequest::new(
+            "RSV-MICRO-001",
+            "OFR-MICRO-001",
+            "CUS-MICRO-001",
+            12_500,
+        )
+        .expect("valid contract");
+
+        let confirmation = reservations
+            .confirm(request, &mut inventory, &mut payments)
+            .expect("confirmed through services");
+
+        assert_eq!(confirmation.contract_name(), "ReservationConfirmation");
+        assert_eq!(confirmation.contract_version(), 1);
+        assert_eq!(reservations.confirmed_count(), 1);
+        assert_eq!(inventory.held_count(), 1);
+        assert_eq!(payments.authorized_count(), 1);
+    }
+
+    #[test]
+    fn microservices_catalog_rejects_shared_table_ownership() {
+        let mut catalog = DataOwnershipCatalog::default();
+
+        catalog
+            .claim_table(ServiceName::Reservations, "reservations")
+            .expect("reservations owns table");
+        let result = catalog.claim_table(ServiceName::Payments, "reservations");
+
+        assert_eq!(result, Err(MicroservicesError::SharedDataOwnership));
+    }
+
+    #[test]
+    fn microservices_remote_failure_is_visible_without_local_confirmation() {
+        let mut reservations = ReservationService::default();
+        let mut inventory = InventoryService::with_capacity("OFR-MICRO-002", 1);
+        let mut payments = PaymentService::new(PaymentGatewayMode::Unavailable);
+        let request = MicroConfirmReservationRequest::new(
+            "RSV-MICRO-002",
+            "OFR-MICRO-002",
+            "CUS-MICRO-002",
+            9_900,
+        )
+        .expect("valid contract");
+
+        let result = reservations.confirm(request, &mut inventory, &mut payments);
+
+        assert_eq!(result, Err(MicroservicesError::RemoteServiceUnavailable));
+        assert_eq!(reservations.confirmed_count(), 0);
+        assert_eq!(inventory.held_count(), 0);
+        assert_eq!(payments.authorized_count(), 0);
     }
 }
