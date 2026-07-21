@@ -18,6 +18,11 @@ especificación conceptual, modelo Rust mínimo, diagrama Mermaid y ejemplos
 progresivos, ejercicios, solución sugerida y análisis de costos. Todavía
 requiere revisión humana antes de subir de estado editorial.
 
+El capítulo `02. Arquitectura hexagonal` está en estado `draft`: ya cuenta con
+especificación conceptual de puertos, adaptadores, problema, alternativas e
+invariantes. Todavía requiere modelo Rust mínimo, diagrama, ejemplos,
+ejercicios, solución sugerida y análisis de costos.
+
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
 correspondiente y etiquetado para mantener la regla del repositorio: un issue,
@@ -50,7 +55,7 @@ La progresión esperada es:
 | # | Capítulo | Estado |
 |---|----------|--------|
 | 01 | Monolito modular | draft |
-| 02 | Arquitectura hexagonal | planned |
+| 02 | Arquitectura hexagonal | draft |
 | 03 | Clean Architecture | planned |
 | 04 | Domain-Driven Design | planned |
 | 05 | CQRS | planned |
@@ -76,5 +81,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Cerrar el milestone `01. Monolito modular` cuando todos sus issues estén
-cerrados y continuar con `02. Arquitectura hexagonal`.
+Continuar el bloque autónomo de `02. Arquitectura hexagonal`: modelo Rust
+mínimo, capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
