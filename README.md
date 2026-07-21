@@ -127,6 +127,7 @@ Leer primero:
 5. [`docs/00-caso-comun-y-frontera.md`](./docs/00-caso-comun-y-frontera.md)
 6. [`docs/plantilla-capitulo-arquitectura.md`](./docs/plantilla-capitulo-arquitectura.md)
 7. [`docs/09-navegacion-y-enlaces.md`](./docs/09-navegacion-y-enlaces.md)
+8. [`docs/10-publicacion-candidata.md`](./docs/10-publicacion-candidata.md)
 
 Ejecutar tests:
 

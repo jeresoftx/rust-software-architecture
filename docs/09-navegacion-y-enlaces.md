@@ -42,3 +42,6 @@ Verificaciones realizadas:
 - verificación local de enlaces relativos en `docs/` y `README.md`;
 - `cargo fmt --check`;
 - `git diff --check`.
+
+El documento de cierre vive en
+[`10-publicacion-candidata.md`](./10-publicacion-candidata.md).

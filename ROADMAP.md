@@ -132,5 +132,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el milestone `09. Cierre editorial y publicación`: documentar
-publicación candidata, riesgos y revisión humana necesaria.
+Siguiente paso editorial: revisión humana de Joel sobre el curso candidato. No
+marcar capítulos como `reviewed` ni `published` hasta que esa revisión ocurra.
