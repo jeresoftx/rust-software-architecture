@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#9](https://github.com/jeresoftx/rust-software-architecture/issues/9) |
+| Issue | [#8](https://github.com/jeresoftx/rust-software-architecture/issues/8), [#9](https://github.com/jeresoftx/rust-software-architecture/issues/9), [#12](https://github.com/jeresoftx/rust-software-architecture/issues/12) |
 | PR | Pendiente |
 | Milestone | `02. Arquitectura hexagonal` |
 | Módulo Rust | `src/hexagonal_architecture.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/02_basico.rs`, `examples/02_intermedio.rs`, `examples/02_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/02-arquitectura-hexagonal.md` |
 
 La arquitectura hexagonal organiza el sistema alrededor de un núcleo de
 aplicación protegido por puertos y adaptadores. El núcleo expresa reglas,
@@ -145,11 +145,55 @@ decisiones operativas.
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El diagrama completo vive en
+[`diagrams/02-arquitectura-hexagonal.md`](../diagrams/02-arquitectura-hexagonal.md).
+
+```mermaid
+flowchart LR
+    CLI["Adaptador de entrada"]
+
+    subgraph "Núcleo"
+        UC["ConfirmBooking"]
+        D["Reservation"]
+        P["ReservationStore"]
+    end
+
+    MEM["InMemoryReservationStore"]
+    FAIL["FailingReservationStore"]
+
+    CLI --> UC
+    UC --> D
+    UC --> P
+    MEM -. implementa .-> P
+    FAIL -. implementa .-> P
+```
+
+El caso de uso depende del puerto `ReservationStore`. El adaptador en memoria y
+el adaptador fallido implementan el puerto desde afuera. Esa dirección permite
+probar el núcleo sin base de datos real y cambiar infraestructura sin reescribir
+la regla de confirmación.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos están pensados para leerse y ejecutarse en orden:
+
+| Nivel | Archivo | Qué enseña |
+|-------|---------|------------|
+| Básico | `examples/02_basico.rs` | Confirmar una reserva usando un adaptador en memoria |
+| Intermedio | `examples/02_intermedio.rs` | Rechazar entrada inválida antes de tocar el adaptador |
+| Realista | `examples/02_realista.rs` | Propagar una falla de infraestructura como error del puerto |
+
+Ejecutarlos:
+
+```bash
+cargo run --example 02_basico
+cargo run --example 02_intermedio
+cargo run --example 02_realista
+```
+
+El ejemplo básico muestra el flujo feliz. El intermedio muestra que el adaptador
+no debe recibir datos inválidos. El realista muestra que una falla de salida no
+debe ocultarse como éxito del caso de uso.
 
 ## 11. Ejercicios
 
@@ -160,9 +204,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 Estado actual: `draft`.
 
 Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
-Rust mínimo; todavía requiere ejemplos, diagrama, ejercicios, soluciones, costos
-finales y revisión humana explícita de Joel antes de avanzar de estado
-editorial.
+Rust mínimo, diagrama y ejemplos progresivos; todavía requiere ejercicios,
+soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
+de estado editorial.
 
 ### Decisiones registradas
 
