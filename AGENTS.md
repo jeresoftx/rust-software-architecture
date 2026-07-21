@@ -54,6 +54,10 @@ Toda nueva funcionalidad incluye:
 Antes de tocar código de curso, el plan completo debe existir como milestones e
 issues en GitHub. Ese tablero es el checklist operativo del repositorio.
 
+El GitHub Project del curso debe estar asociado al repositorio y su vista
+principal debe agrupar los items por `Milestone`. La lectura natural del curso
+es por fase o capítulo, no por fecha de creación ni por lista plana de issues.
+
 Cada paso del plan se trabaja con trazabilidad mínima:
 
 1. Crear o reutilizar un issue específico para el paso.
@@ -74,6 +78,7 @@ Reglas operativas:
 - Un paso del plan equivale a un issue, un commit y un PR.
 - Cada issue debe estar asignado a `jeresoftx`.
 - Cada issue debe pertenecer al milestone del capítulo o fase correspondiente.
+- Cada issue debe agregarse al GitHub Project del curso.
 - Cada PR debe estar asignado a `jeresoftx`.
 - Cada PR debe pertenecer al mismo milestone que el issue que resuelve.
 - Cada issue y PR deben tener labels suficientes para entender tipo, capítulo o

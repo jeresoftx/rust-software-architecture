@@ -17,6 +17,10 @@ Cada issue debe estar asignado a `jeresoftx`, tener labels coherentes y
 pertenecer al milestone del capítulo o fase correspondiente. Cada PR debe
 conservar la misma trazabilidad: assignee, milestone, labels y `Closes #N`.
 
+El GitHub Project asociado al repositorio debe contener todos los issues del
+plan y su vista principal debe agrupar por `Milestone`. Si la vista se pierde o
+GitHub la reinicia, se debe restaurar antes de comenzar un bloque autónomo.
+
 ## Milestones del plan
 
 | Milestone | Alcance | Issues |
@@ -39,6 +43,8 @@ conservar la misma trazabilidad: assignee, milestone, labels y `Closes #N`.
 - [ ] Documentar manifiesto, frontera y caso común del curso.
 - [ ] Preparar plantilla de capítulo de arquitectura.
 - [ ] Documentar flujo autónomo y trazabilidad GitHub.
+- [ ] Verificar que el GitHub Project esté asociado al repo y agrupado por
+      `Milestone`.
 - [ ] Completar glosario base y ruta de lectura.
 
 ### 01. Monolito modular

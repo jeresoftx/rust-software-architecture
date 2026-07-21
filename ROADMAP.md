@@ -17,6 +17,11 @@ código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
 correspondiente y etiquetado para mantener la regla del repositorio: un issue,
 un commit y un PR.
 
+El GitHub Project del curso vive en
+`https://github.com/users/jeresoftx/projects/9`. Debe permanecer asociado al
+repositorio, contener todos los issues accionables y usar una vista principal
+agrupada por `Milestone`, porque el avance se revisa por fase o capítulo.
+
 Ningún capítulo está marcado como `reviewed` ni `published`, porque la revisión
 humana de Joel sigue siendo obligatoria según RFC-0001 §20.
 
