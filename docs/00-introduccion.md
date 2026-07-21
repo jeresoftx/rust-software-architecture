@@ -34,3 +34,10 @@ El curso avanza de lo local a lo distribuido:
 2. después se separa dominio, aplicación e infraestructura;
 3. luego se modela comportamiento de negocio;
 4. finalmente se estudia cuándo conviene distribuir y qué se paga al hacerlo.
+
+Para estudiar sin brincar el razonamiento, empieza por la
+[ruta de lectura](./00-ruta-de-lectura.md), consulta el
+[glosario base](./00-glosario.md) cada vez que un término cargue demasiado peso
+y usa el [manifiesto del curso](./manifiesto-curso.md) como frontera editorial.
+Cada capítulo debe leerse en este orden: concepto, problema, alternativas,
+justificación, implementación, ejercicios y soluciones.
