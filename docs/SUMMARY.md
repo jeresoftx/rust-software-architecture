@@ -6,6 +6,7 @@
 - [Ruta de lectura](./00-ruta-de-lectura.md)
 - [Glosario base](./00-glosario.md)
 - [Manifiesto del curso](./manifiesto-curso.md)
+- [Caso común y frontera](./00-caso-comun-y-frontera.md)
 - [Plantilla de capítulo](./plantilla-capitulo-arquitectura.md)
 - [Flujo autónomo](./flujo-autonomo.md)
 

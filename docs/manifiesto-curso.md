@@ -12,6 +12,10 @@ ingeniería, no con frases de consultoría.
 - Los estilos arquitectónicos no son identidad; son herramientas.
 - Microservicios son una decisión costosa, no una medalla.
 - El código debe hacer visibles las decisiones.
+- El mismo dominio se rediseña varias veces para comparar costos, no para
+  simular progreso artificial.
+- Ninguna explicación debe vender una receta sin nombrar su costo operacional y
+  organizacional.
 
 ## Caso común
 
@@ -26,6 +30,34 @@ puede rediseñar el mismo dominio desde otra perspectiva para comparar costos:
 - event sourcing para reconstruir estado desde hechos;
 - arquitectura orientada a eventos para integración;
 - microservicios para distribución organizacional y operativa.
+
+El caso común se documenta con más detalle en
+[`00-caso-comun-y-frontera.md`](./00-caso-comun-y-frontera.md). La decisión
+canónica es que el motor de reservas funciona como laboratorio arquitectónico,
+no como producto final.
+
+## Frontera con otros repositorios
+
+Este curso es canónico para la forma interna y evolutiva del software: límites,
+dependencias, contratos, casos de uso, módulos, eventos, servicios e impactos de
+operación.
+
+No reemplaza:
+
+- `rust-system-design`, donde se decide el diseño de sistemas completos;
+- `rust-distributed-systems`, donde viven coordinación, fallas distribuidas,
+  relojes, consenso y replicación;
+- `rust-database-internals`, donde se estudian motores, transacciones, índices y
+  query optimizers;
+- `rust-design-patterns`, donde se ordenan patrones y principios reutilizables;
+- `rust-cloud`, donde se estudian plataformas, despliegue, IAM, red y costos;
+- `rust-travel`, que puede tomar el dominio de reservas como proyecto integrador
+  de producto.
+
+La frontera práctica es esta: si una decisión existe para enseñar organización
+arquitectónica, pertenece aquí; si existe para construir producto, operar una
+plataforma, implementar un motor de datos o resolver teoría distribuida, debe
+vivir en el curso vecino correspondiente.
 
 ## Límite editorial
 

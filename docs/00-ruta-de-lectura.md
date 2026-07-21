@@ -12,10 +12,12 @@ Lee esta sección de inicio antes de entrar a los estilos arquitectónicos:
 1. **Introducción:** ubica el caso común y la progresión general.
 2. **Manifiesto del curso:** declara el tono, la frontera y las promesas que no
    se deben romper.
-3. **Glosario base:** normaliza el lenguaje para discutir límites, contratos y
+3. **Caso común y frontera:** define el laboratorio de reservas y sus límites
+   con cursos vecinos.
+4. **Glosario base:** normaliza el lenguaje para discutir límites, contratos y
    tradeoffs sin ambigüedad.
-4. **Plantilla de capítulo:** muestra la forma esperada de cada entrega.
-5. **Flujo autónomo:** documenta cómo se trabaja con issues, PRs, milestones y
+5. **Plantilla de capítulo:** muestra la forma esperada de cada entrega.
+6. **Flujo autónomo:** documenta cómo se trabaja con issues, PRs, milestones y
    revisión diferida.
 
 Antes de iniciar un bloque autónomo, confirma que el GitHub Project del curso

@@ -38,6 +38,10 @@ Este curso vive en el Semestre 5. Recibe ideas de `rust-system-design`,
 hexagonal, Clean Architecture, Domain-Driven Design, CQRS, event sourcing,
 arquitectura orientada a eventos y microservicios.
 
+El caso común es un motor de reservas educativo. Se usa como laboratorio para
+comparar límites y costos arquitectónicos; no convierte este repositorio en
+`rust-travel` ni en una aplicación productiva de viajes.
+
 ## Alcance del curso
 
 Este repositorio sí cubre:
@@ -51,8 +55,9 @@ Este repositorio sí cubre:
 
 Este repositorio no reemplaza:
 
-- `rust-system-design`: allá se diseñan sistemas completos; aquí se estudia la
-  organización interna y evolutiva del software;
+- `rust-system-design`: allá se diseñan sistemas completos, tráfico, capacidad,
+  APIs y escenarios de producto; aquí se estudia la organización interna y
+  evolutiva del software;
 - `rust-distributed-systems`: allá viven consenso, relojes lógicos y
   tolerancia a fallas;
 - `rust-database-internals`: allá viven almacenamiento, transacciones, MVCC y
@@ -93,6 +98,7 @@ docs/
   00-ruta-de-lectura.md
   00-glosario.md
   manifiesto-curso.md
+  00-caso-comun-y-frontera.md
   plantilla-capitulo-arquitectura.md
   flujo-autonomo.md
   superpowers/plans/
@@ -113,7 +119,8 @@ Leer primero:
 2. [`docs/00-ruta-de-lectura.md`](./docs/00-ruta-de-lectura.md)
 3. [`docs/00-glosario.md`](./docs/00-glosario.md)
 4. [`docs/manifiesto-curso.md`](./docs/manifiesto-curso.md)
-5. [`docs/plantilla-capitulo-arquitectura.md`](./docs/plantilla-capitulo-arquitectura.md)
+5. [`docs/00-caso-comun-y-frontera.md`](./docs/00-caso-comun-y-frontera.md)
+6. [`docs/plantilla-capitulo-arquitectura.md`](./docs/plantilla-capitulo-arquitectura.md)
 
 Ejecutar tests:
 
