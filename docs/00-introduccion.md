@@ -26,6 +26,9 @@ pequeño para caber en ejemplos, pero lo bastante rico para mostrar:
 No es el curso `rust-travel`: aquí el foco está en la arquitectura, no en
 construir un producto completo de travel tech.
 
+La frontera completa del caso común vive en
+[`00-caso-comun-y-frontera.md`](./00-caso-comun-y-frontera.md).
+
 ## Regla de lectura
 
 El curso avanza de lo local a lo distribuido:
