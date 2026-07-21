@@ -22,7 +22,9 @@ a sostener negocio, equipos y cambios.
 
 El repositorio acaba de entrar en desarrollo. Los capítulos `01. Monolito
 modular`, `02. Arquitectura hexagonal` y `03. Clean Architecture` están en
-estado `draft`; el resto de capítulos sigue en estado `planned`.
+estado `draft`; `03. Clean Architecture` ya cuenta con modelo Rust mínimo,
+diagrama y ejemplos progresivos. El resto de capítulos sigue en estado
+`planned`.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
 de Joel sigue siendo obligatoria antes de considerar el curso listo para
