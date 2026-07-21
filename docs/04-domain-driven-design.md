@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#19](https://github.com/jeresoftx/rust-software-architecture/issues/19), [#16](https://github.com/jeresoftx/rust-software-architecture/issues/16), [#17](https://github.com/jeresoftx/rust-software-architecture/issues/17) |
+| Issue | [#19](https://github.com/jeresoftx/rust-software-architecture/issues/19), [#16](https://github.com/jeresoftx/rust-software-architecture/issues/16), [#17](https://github.com/jeresoftx/rust-software-architecture/issues/17), [#14](https://github.com/jeresoftx/rust-software-architecture/issues/14) |
 | PR | Pendiente |
 | Milestone | `04. Domain-Driven Design` |
 | Módulo Rust | `src/domain_driven_design.rs` |
 | Ejemplos | `examples/04_basico.rs`, `examples/04_intermedio.rs`, `examples/04_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/04_domain_driven_design.rs` |
 | Diagramas | `diagrams/04-domain-driven-design.md` |
 
 Domain-Driven Design no empieza con carpetas ni patrones. Empieza con una
@@ -139,6 +139,12 @@ Su beneficio principal es que las reglas importantes tienen dueño y nombre. Su
 costo principal es que obliga a pensar en el negocio antes de esconderlo detrás
 de servicios genéricos.
 
+El análisis de costos vive también en
+[`benches/04-domain-driven-design-costos.md`](../benches/04-domain-driven-design-costos.md).
+Este capítulo no usa benchmark de throughput porque el costo relevante no es la
+velocidad de construir un value object, sino la claridad del lenguaje y la
+protección de invariantes.
+
 ## 7. Modos de falla
 
 DDD falla cuando:
@@ -216,15 +222,78 @@ agregado no debe transferir la regla de negocio al repositorio.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: reconocer lenguaje de dominio
+
+Lee `src/domain_driven_design.rs` y responde:
+
+1. ¿Qué tipos son value objects?
+2. ¿Qué tipo funciona como aggregate root?
+3. ¿Qué métodos cambian el estado del agregado?
+4. ¿Qué eventos de dominio existen?
+5. ¿Qué regla impide confirmar una reserva cancelada?
+
+La meta es distinguir lenguaje de negocio de estructura técnica. No basta decir
+"todo está en el módulo domain"; hay que explicar qué regla protege cada tipo.
+
+### Nivel 2: registrar hechos sin contaminar el agregado
+
+Crea un `DomainEventRecorder` pequeño que reciba los eventos devueltos por
+`Reservation::confirm` y `Reservation::cancel`. Después confirma una reserva,
+registra el evento y guarda el agregado en el repositorio.
+
+Pistas:
+
+- `Reservation` no debe conocer al recorder;
+- el repositorio no debe decidir cuándo se emite un evento;
+- el evento describe algo que ya ocurrió;
+- el agregado debe seguir protegiendo sus transiciones.
+
+### Nivel 3: defender una frontera de agregado
+
+Imagina que ahora una reserva debe ocupar inventario y aplicar una política de
+cancelación con penalización. Antes de escribir código, responde:
+
+- ¿inventario pertenece al mismo agregado que reserva?
+- ¿la penalización es value object, regla de dominio o política externa?
+- ¿qué consistencia necesitas en la misma transacción?
+- ¿qué palabra cambia de significado entre reservas, inventario y pagos?
+- ¿en qué momento conviene hablar de bounded contexts separados?
+
+Una buena respuesta nombra consistencia, lenguaje y costo. No basta proponer
+"crear otro agregado" sin explicar qué invariante protege.
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/04_domain_driven_design.rs`](../examples/soluciones/04_domain_driven_design.rs).
+También se compila como `examples/04_solucion.rs`.
+
+Una buena solución conserva estas ideas:
+
+- el agregado `Reservation` decide la transición y devuelve el evento;
+- el recorder registra hechos sin convertirse en regla de dominio;
+- el repositorio guarda el agregado, pero no emite eventos por su cuenta;
+- los value objects siguen impidiendo valores inválidos antes de crear el
+  agregado;
+- el código sigue usando palabras del dominio: reserva, oferta, cliente, precio
+  y evento.
+
+Para el ejercicio de inventario y penalización, una respuesta razonable es
+reconocer que no todo debe vivir dentro de `Reservation`. Si una operación
+necesita consistencia fuerte entre reserva e inventario, la frontera del
+agregado debe discutirse con cuidado. Si pagos, inventario y reservas usan
+lenguajes distintos, probablemente estamos entrando a bounded contexts y a
+problemas que se profundizarán en event sourcing, arquitectura orientada a
+eventos y sistemas distribuidos.
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
-soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
-de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
+Rust mínimo, diagrama, ejemplos progresivos, ejercicios, solución sugerida y
+análisis de costos. Requiere revisión humana explícita de Joel antes de avanzar
+a `reviewed` o `published`.
 
 ### Decisiones registradas
 
@@ -235,3 +304,5 @@ de estado editorial.
 - El motor de reservas se usa como laboratorio de lenguaje: las palabras del
   dominio deben aparecer en código, pruebas y documentación.
 - DDD no se presenta como sinónimo de microservicios.
+- Este capítulo no usa benchmark de throughput; declara un benchmark educativo
+  de lenguaje ubicuo, fronteras de agregado y claridad de invariantes.
