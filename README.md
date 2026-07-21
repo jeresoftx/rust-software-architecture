@@ -90,6 +90,11 @@ course.manifest.json
 docs/
   SUMMARY.md
   00-introduccion.md
+  00-ruta-de-lectura.md
+  00-glosario.md
+  manifiesto-curso.md
+  plantilla-capitulo-arquitectura.md
+  flujo-autonomo.md
   superpowers/plans/
 src/
 examples/
@@ -101,6 +106,14 @@ assets/
 ```
 
 ## Cómo usarlo
+
+Leer primero:
+
+1. [`docs/00-introduccion.md`](./docs/00-introduccion.md)
+2. [`docs/00-ruta-de-lectura.md`](./docs/00-ruta-de-lectura.md)
+3. [`docs/00-glosario.md`](./docs/00-glosario.md)
+4. [`docs/manifiesto-curso.md`](./docs/manifiesto-curso.md)
+5. [`docs/plantilla-capitulo-arquitectura.md`](./docs/plantilla-capitulo-arquitectura.md)
 
 Ejecutar tests:
 

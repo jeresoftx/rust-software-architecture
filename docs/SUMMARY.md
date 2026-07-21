@@ -3,8 +3,10 @@
 ## Inicio
 
 - [Introducción](./00-introduccion.md)
+- [Ruta de lectura](./00-ruta-de-lectura.md)
 - [Glosario base](./00-glosario.md)
 - [Manifiesto del curso](./manifiesto-curso.md)
+- [Plantilla de capítulo](./plantilla-capitulo-arquitectura.md)
 - [Flujo autónomo](./flujo-autonomo.md)
 
 ## Límites internos
