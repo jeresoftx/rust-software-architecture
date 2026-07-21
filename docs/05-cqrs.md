@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#21](https://github.com/jeresoftx/rust-software-architecture/issues/21), [#28](https://github.com/jeresoftx/rust-software-architecture/issues/28) |
+| Issue | [#21](https://github.com/jeresoftx/rust-software-architecture/issues/21), [#28](https://github.com/jeresoftx/rust-software-architecture/issues/28), [#27](https://github.com/jeresoftx/rust-software-architecture/issues/27) |
 | PR | Pendiente |
 | Milestone | `05. CQRS` |
 | Módulo Rust | `src/cqrs.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/05_basico.rs`, `examples/05_intermedio.rs`, `examples/05_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/05-cqrs.md` |
 
 CQRS separa dos preguntas que a menudo se mezclan por comodidad: ¿qué cambia el
 sistema? y ¿qué necesita leer una persona, API o proceso? No es una excusa para
@@ -156,11 +156,49 @@ se vuelven la fuente histórica del estado.
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El flujo mínimo del capítulo se resume así:
+
+```mermaid
+flowchart LR
+    Actor["Caso de uso o interfaz"] --> Command["ConfirmReservation"]
+    Command --> WriteModel["ReservationWriteModel"]
+    WriteModel --> Event["ReservationConfirmed"]
+    Event --> Projection["ReservationSummaryProjection"]
+    Projection --> ReadModel["ReservationSummary"]
+    Query["FindConfirmedReservations"] --> ReadModel
+
+    WriteModel -. protege .-> Invariants["Invariantes de escritura"]
+    Projection -. reconoce .-> Lag["Retraso de proyección"]
+```
+
+La flecha importante no es infraestructura: es responsabilidad. El comando
+entra por el lado de escritura, el modelo de escritura decide si puede aceptar
+la intención, el evento comunica el hecho y la proyección prepara una vista
+útil para lectura. La consulta no vuelve a confirmar la reserva; solo lee una
+vista ya construida.
+
+El diagrama editable vive en `diagrams/05-cqrs.md`.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos avanzan de menor a mayor presión arquitectónica:
+
+| Archivo | Enfoque | Qué observar |
+|---------|---------|--------------|
+| `examples/05_basico.rs` | Comando y modelo de escritura | Confirmar una reserva produce un evento y cambia solo el lado de escritura. |
+| `examples/05_intermedio.rs` | Comando inválido | Un comando incompleto falla sin mutar el modelo de escritura. |
+| `examples/05_realista.rs` | Proyección y consulta | El evento alimenta la vista de lectura, y la consulta obtiene datos sin mutar la proyección. |
+
+Ejecución sugerida:
+
+```bash
+cargo run --example 05_basico
+cargo run --example 05_intermedio
+cargo run --example 05_realista
+```
+
+El punto de los ejemplos no es simular una arquitectura distribuida. El punto
+es ver la frontera en un mismo proceso, con tipos pequeños y verificables.
 
 ## 11. Ejercicios
 
@@ -170,9 +208,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
-ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
-Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
+soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
+de estado editorial.
 
 ### Decisiones registradas
 
@@ -183,3 +221,4 @@ Joel antes de avanzar de estado editorial.
 - CQRS no se presenta como sinónimo de event sourcing.
 - Las proyecciones deben derivarse de hechos del modelo de escritura, no de
   deseos de la pantalla.
+- Los ejemplos progresivos deben poder ejecutarse sin infraestructura externa.
