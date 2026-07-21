@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#18](https://github.com/jeresoftx/rust-software-architecture/issues/18), [#20](https://github.com/jeresoftx/rust-software-architecture/issues/20) |
+| Issue | [#18](https://github.com/jeresoftx/rust-software-architecture/issues/18), [#20](https://github.com/jeresoftx/rust-software-architecture/issues/20), [#15](https://github.com/jeresoftx/rust-software-architecture/issues/15) |
 | PR | Pendiente |
 | Milestone | `03. Clean Architecture` |
 | Módulo Rust | `src/clean_architecture.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/03_basico.rs`, `examples/03_intermedio.rs`, `examples/03_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/03-clean-architecture.md` |
 
 Clean Architecture organiza el software por dirección de dependencia: las
 reglas estables viven al centro y los detalles cambiantes viven afuera. El
@@ -151,11 +151,65 @@ negocio se vuelve más profundo.
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El diagrama completo vive en
+[`diagrams/03-clean-architecture.md`](../diagrams/03-clean-architecture.md).
+
+```mermaid
+flowchart TB
+    INPUT["Entrada externa"]
+    REQUEST["ConfirmReservationRequest"]
+
+    subgraph "Application"
+        UC["ConfirmReservation"]
+        REPO["ReservationRepository"]
+    end
+
+    subgraph "Domain"
+        ENTITY["Reservation"]
+        IDS["ReservationId / OfferId / CustomerId"]
+    end
+
+    subgraph "Adapters"
+        MEM["InMemoryReservationRepository"]
+        FAIL["FailingReservationRepository"]
+    end
+
+    INPUT --> REQUEST
+    REQUEST --> UC
+    UC --> IDS
+    UC --> ENTITY
+    UC --> REPO
+    MEM -. implementa .-> REPO
+    FAIL -. implementa .-> REPO
+```
+
+La línea punteada muestra implementación de contrato desde afuera. El caso de
+uso conoce el contrato `ReservationRepository`, pero no conoce si la
+persistencia vive en memoria, en una base de datos o en un proveedor remoto. La
+entidad `Reservation` tampoco conoce el caso de uso ni el repositorio.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos están pensados para leerse y ejecutarse en orden:
+
+| Nivel | Archivo | Qué enseña |
+|-------|---------|------------|
+| Básico | `examples/03_basico.rs` | Confirmar una reserva desde un caso de uso limpio |
+| Intermedio | `examples/03_intermedio.rs` | Rechazar entrada inválida antes de tocar repositorio |
+| Realista | `examples/03_realista.rs` | Propagar una falla de repositorio sin ocultarla |
+
+Ejecutarlos:
+
+```bash
+cargo run --example 03_basico
+cargo run --example 03_intermedio
+cargo run --example 03_realista
+```
+
+El ejemplo básico muestra la ruta feliz. El intermedio muestra que la frontera
+de entrada convierte datos primitivos en tipos válidos antes de persistir. El
+realista muestra que Clean Architecture no promete ausencia de fallas; promete
+que las fallas cruzan las capas como decisiones explícitas.
 
 ## 11. Ejercicios
 
@@ -165,9 +219,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
-ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
-Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
+soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
+de estado editorial.
 
 ### Decisiones registradas
 
