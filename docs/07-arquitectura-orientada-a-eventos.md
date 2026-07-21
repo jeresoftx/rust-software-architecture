@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#33](https://github.com/jeresoftx/rust-software-architecture/issues/33), [#32](https://github.com/jeresoftx/rust-software-architecture/issues/32) |
+| Issue | [#33](https://github.com/jeresoftx/rust-software-architecture/issues/33), [#32](https://github.com/jeresoftx/rust-software-architecture/issues/32), [#30](https://github.com/jeresoftx/rust-software-architecture/issues/30) |
 | PR | Pendiente |
 | Milestone | `07. Arquitectura orientada a eventos` |
 | Módulo Rust | `src/event_driven_architecture.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/07_basico.rs`, `examples/07_intermedio.rs`, `examples/07_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/07-arquitectura-orientada-a-eventos.md` |
 
 La arquitectura orientada a eventos organiza la integración alrededor de hechos
 que otras partes del sistema pueden observar. Un productor publica que algo
@@ -163,11 +163,49 @@ de hablar de infraestructura.
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El diagrama canónico vive en
+[`diagrams/07-arquitectura-orientada-a-eventos.md`](../diagrams/07-arquitectura-orientada-a-eventos.md).
+
+```mermaid
+flowchart LR
+    Producer["ReservationProducer"] --> Contract["ReservationConfirmed\ncontrato v1"]
+    Contract --> Bus["InMemoryEventBus"]
+    Bus --> Notifications["NotificationConsumer"]
+    Bus --> Analytics["ReservationAnalyticsConsumer"]
+    Bus --> Failure["FailingConsumer"]
+
+    Contract -. nombre y versión .-> Version["Contrato estable"]
+    Notifications -. evita duplicados .-> Processed["event_id procesado"]
+    Analytics -. conteo independiente .-> Metrics["Métrica de reservas"]
+    Failure -. no borra .-> Bus
+```
+
+El productor publica el hecho `ReservationConfirmed`. El bus registra ese
+hecho y lo entrega a consumidores independientes. Notificaciones y analítica
+pueden evolucionar sin cambiar el productor. El consumidor fallido enseña una
+invariante operativa: una reacción que falla no borra el evento ya publicado.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos se ejecutan con `cargo run --example` y suben de lectura del
+contrato a fan-out e idempotencia.
+
+| Nivel | Archivo | Propósito |
+|-------|---------|-----------|
+| Básico | `examples/07_basico.rs` | Publicar `ReservationConfirmed` y leer su contrato. |
+| Intermedio | `examples/07_intermedio.rs` | Entregar el mismo evento a notificaciones y analítica. |
+| Realista | `examples/07_realista.rs` | Mostrar falla de consumidor e idempotencia ante duplicados. |
+
+```bash
+cargo run --example 07_basico
+cargo run --example 07_intermedio
+cargo run --example 07_realista
+```
+
+El ejemplo básico enfoca el contrato: nombre, versión, reserva y cliente. El
+intermedio muestra fan-out sin que el productor conozca consumidores concretos.
+El realista deja visible el costo que aparece en producción: una reacción puede
+fallar y un mismo evento puede procesarse más de una vez.
 
 ## 11. Ejercicios
 
@@ -178,8 +216,8 @@ Pendientes del issue de ejercicios, soluciones y costos.
 Estado actual: `draft`.
 
 Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
-ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
-Joel antes de avanzar de estado editorial.
+ejercicios, soluciones, costos finales y revisión humana explícita de Joel
+antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -193,3 +231,6 @@ Joel antes de avanzar de estado editorial.
   implementación opcional.
 - El modelo Rust mínimo protege contrato, fan-out e idempotencia sin `unsafe`
   ni dependencias externas.
+- Los ejemplos progresivos muestran contrato, fan-out, falla de consumidor e
+  idempotencia sin introducir infraestructura externa antes de entender el
+  diseño.

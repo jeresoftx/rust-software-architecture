@@ -58,8 +58,9 @@ El capítulo `07. Arquitectura orientada a eventos` está en estado `draft`: ya
 cuenta con especificación conceptual de productores, consumidores, contratos,
 integración, alternativas, invariantes, costos y modos de falla, además de un
 modelo Rust mínimo con pruebas para contrato estable, publicación, fan-out,
-idempotencia y aislamiento de fallas. Todavía requiere diagrama, ejemplos,
-ejercicios, solución sugerida y análisis de costos.
+idempotencia y aislamiento de fallas. También cuenta con diagrama Mermaid y
+ejemplos progresivos. Todavía requiere ejercicios, solución sugerida y análisis
+de costos.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -120,4 +121,4 @@ La progresión esperada es:
 ## Siguiente paso natural
 
 Continuar el bloque autónomo de `07. Arquitectura orientada a eventos`:
-capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
+ejercicios, solución sugerida y análisis de costos.
