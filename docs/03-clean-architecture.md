@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#18](https://github.com/jeresoftx/rust-software-architecture/issues/18), [#20](https://github.com/jeresoftx/rust-software-architecture/issues/20), [#15](https://github.com/jeresoftx/rust-software-architecture/issues/15) |
+| Issue | [#18](https://github.com/jeresoftx/rust-software-architecture/issues/18), [#20](https://github.com/jeresoftx/rust-software-architecture/issues/20), [#15](https://github.com/jeresoftx/rust-software-architecture/issues/15), [#13](https://github.com/jeresoftx/rust-software-architecture/issues/13) |
 | PR | Pendiente |
 | Milestone | `03. Clean Architecture` |
 | Módulo Rust | `src/clean_architecture.rs` |
 | Ejemplos | `examples/03_basico.rs`, `examples/03_intermedio.rs`, `examples/03_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/03_clean_architecture.rs` |
 | Diagramas | `diagrams/03-clean-architecture.md` |
 
 Clean Architecture organiza el software por dirección de dependencia: las
@@ -131,6 +131,12 @@ Su beneficio principal es proteger reglas estables de detalles cambiantes. Su
 costo principal es la ceremonia cuando el sistema todavía no tiene suficiente
 complejidad para necesitarla.
 
+El análisis de costos vive también en
+[`benches/03-clean-architecture-costos.md`](../benches/03-clean-architecture-costos.md).
+Este capítulo no usa benchmark de throughput porque el costo relevante no es la
+velocidad de una llamada a caso de uso, sino la protección de reglas estables
+frente a detalles cambiantes.
+
 ## 7. Modos de falla
 
 Clean Architecture falla cuando:
@@ -213,15 +219,75 @@ que las fallas cruzan las capas como decisiones explícitas.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: ubicar la dirección de dependencia
+
+Lee `src/clean_architecture.rs` y responde:
+
+1. ¿Qué módulo contiene la entidad `Reservation`?
+2. ¿Qué tipo representa el caso de uso?
+3. ¿Qué trait funciona como contrato de repositorio?
+4. ¿Qué adaptadores implementan ese contrato?
+5. ¿Qué prueba demuestra que una entrada inválida no toca persistencia?
+
+La meta es reconocer que las reglas estables viven al centro. No basta decir
+"hay capas"; hay que explicar quién conoce a quién.
+
+### Nivel 2: agregar auditoría sin tocar el caso de uso
+
+Crea un `AuditedReservationRepository` que implemente `ReservationRepository`.
+Debe guardar la reserva y agregar una línea de auditoría con el identificador
+confirmado.
+
+Pistas:
+
+- el caso de uso `ConfirmReservation` no debe cambiar;
+- la entidad `Reservation` no debe saber que existe auditoría;
+- el adaptador puede agregar comportamiento técnico alrededor del contrato;
+- una prueba o ejemplo debe demostrar que la reserva se guarda y se audita.
+
+### Nivel 3: defender la frontera de aplicación
+
+Imagina que ahora la confirmación debe enviar correo, publicar un evento y
+reservar inventario externo. Antes de escribir código, responde:
+
+- ¿cuáles de esas acciones son reglas de dominio y cuáles son detalles?
+- ¿conviene que `Reservation` conozca correo, eventos o inventario remoto?
+- ¿cuántos contratos de salida necesita el caso de uso?
+- ¿qué pasa si guardar funciona pero publicar el evento falla?
+- ¿en qué momento esta discusión deja de ser Clean Architecture y entra a
+  arquitectura orientada a eventos o transacciones distribuidas?
+
+Una buena respuesta nombra dirección de dependencia, errores visibles y límites
+transaccionales. No basta proponer "otro servicio" sin explicar el costo.
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/03_clean_architecture.rs`](../examples/soluciones/03_clean_architecture.rs).
+También se compila como `examples/03_solucion.rs`.
+
+Una buena solución conserva estas ideas:
+
+- el caso de uso `ConfirmReservation` no cambia;
+- el repositorio auditado implementa `ReservationRepository`;
+- la auditoría vive en el adaptador, no en la entidad;
+- el dominio sigue hablando de reservas, ofertas y clientes, no de logs;
+- una falla de repositorio seguiría regresando un error visible.
+
+Para el ejercicio de correo, evento e inventario remoto, una respuesta razonable
+es reconocer que esas salidas probablemente necesitan contratos distintos, pero
+que el capítulo no debe esconder problemas transaccionales. Si confirmar,
+publicar y reservar inventario deben ser atómicos, ya estamos cerca de temas de
+event sourcing, arquitectura orientada a eventos o sistemas distribuidos.
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
-soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
-de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
+Rust mínimo, diagrama, ejemplos progresivos, ejercicios, solución sugerida y
+análisis de costos. Requiere revisión humana explícita de Joel antes de avanzar
+a `reviewed` o `published`.
 
 ### Decisiones registradas
 
@@ -231,3 +297,5 @@ de estado editorial.
 - El capítulo no presenta capas como ceremonia; las usa para proteger reglas
   estables.
 - Las entidades no deben depender de casos de uso, puertos ni adaptadores.
+- Este capítulo no usa benchmark de throughput; declara un benchmark educativo
+  de dirección de dependencias, fronteras de aplicación y errores visibles.
