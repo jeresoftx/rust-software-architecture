@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#23](https://github.com/jeresoftx/rust-software-architecture/issues/23), [#24](https://github.com/jeresoftx/rust-software-architecture/issues/24) |
+| Issue | [#23](https://github.com/jeresoftx/rust-software-architecture/issues/23), [#24](https://github.com/jeresoftx/rust-software-architecture/issues/24), [#25](https://github.com/jeresoftx/rust-software-architecture/issues/25) |
 | PR | Pendiente |
 | Milestone | `06. Event sourcing` |
 | Módulo Rust | `src/event_sourcing.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/06_basico.rs`, `examples/06_intermedio.rs`, `examples/06_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/06-event-sourcing.md` |
 
 Event sourcing cambia la pregunta central del modelo de persistencia. En vez de
 guardar solamente el estado actual, guarda los hechos que llevaron al sistema a
@@ -162,11 +162,49 @@ infraestructura.
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El flujo mínimo del capítulo se resume así:
+
+```mermaid
+flowchart LR
+    Command["Comando\nRequest / Confirm / Cancel"] --> Decision["Agregado rehidratado"]
+    Stream["ReservationEventStream"] --> Decision
+    Decision --> Event["Nuevo evento aceptado"]
+    Event --> Stream
+    Stream --> Rehydrate["Rehidratación determinista"]
+    Rehydrate --> State["Reservation\nestado actual"]
+    Stream --> Audit["Auditoría\nhistoria completa"]
+
+    Event -. incrementa .-> Version["Versión del stream"]
+    Rehydrate -. valida .-> Invariants["Invariantes históricas"]
+```
+
+El stream guarda hechos aceptados en orden. El agregado se rehidrata desde esa
+historia antes de decidir si un comando puede producir un nuevo evento. La
+auditoría no es una tabla secundaria: es la misma historia que permite explicar
+el estado actual.
+
+El diagrama editable vive en `diagrams/06-event-sourcing.md`.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos avanzan de menor a mayor presión histórica:
+
+| Archivo | Enfoque | Qué observar |
+|---------|---------|--------------|
+| `examples/06_basico.rs` | Historia feliz | Solicitar y confirmar producen dos eventos; el estado se reconstruye desde el stream. |
+| `examples/06_intermedio.rs` | Historia inválida | Confirmar sin solicitud previa no agrega eventos al stream. |
+| `examples/06_realista.rs` | Auditoría | Cancelar conserva la historia completa y permite reconstruir estado final. |
+
+Ejecución sugerida:
+
+```bash
+cargo run --example 06_basico
+cargo run --example 06_intermedio
+cargo run --example 06_realista
+```
+
+El punto de los ejemplos no es simular una base de datos de eventos. El punto
+es ver que la historia aceptada es suficiente para explicar el estado actual.
 
 ## 11. Ejercicios
 
@@ -176,9 +214,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
-ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
-Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
+soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
+de estado editorial.
 
 ### Decisiones registradas
 
@@ -191,3 +229,5 @@ Joel antes de avanzar de estado editorial.
   secundario.
 - El modelo Rust mínimo protege rehidratación determinista y stream append-only
   sin `unsafe` ni dependencias externas.
+- Los ejemplos progresivos deben demostrar historia feliz, historia inválida y
+  auditoría sin infraestructura externa.
