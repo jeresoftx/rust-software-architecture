@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#23](https://github.com/jeresoftx/rust-software-architecture/issues/23), [#24](https://github.com/jeresoftx/rust-software-architecture/issues/24), [#25](https://github.com/jeresoftx/rust-software-architecture/issues/25) |
+| Issue | [#23](https://github.com/jeresoftx/rust-software-architecture/issues/23), [#24](https://github.com/jeresoftx/rust-software-architecture/issues/24), [#25](https://github.com/jeresoftx/rust-software-architecture/issues/25), [#22](https://github.com/jeresoftx/rust-software-architecture/issues/22) |
 | PR | Pendiente |
 | Milestone | `06. Event sourcing` |
 | Módulo Rust | `src/event_sourcing.rs` |
 | Ejemplos | `examples/06_basico.rs`, `examples/06_intermedio.rs`, `examples/06_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/06_event_sourcing.rs`, `examples/06_solucion.rs` |
 | Diagramas | `diagrams/06-event-sourcing.md` |
 
 Event sourcing cambia la pregunta central del modelo de persistencia. En vez de
@@ -135,6 +135,12 @@ Su beneficio principal es que la historia se vuelve consultable, reconstruible
 y auditable. Su costo principal es que obliga a diseñar el tiempo como parte
 del dominio.
 
+El análisis de costos vive también como nota educativa en
+`benches/06-event-sourcing-costos.md`. Este capítulo no usa `cargo bench`
+porque medir la velocidad de recorrer un `Vec` no enseña la decisión
+arquitectónica; lo importante es comparar historia, auditoría, versionado,
+reconstrucción y compensaciones explícitas.
+
 ## 7. Modos de falla
 
 Event sourcing falla cuando:
@@ -208,15 +214,76 @@ es ver que la historia aceptada es suficiente para explicar el estado actual.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: reconocer historia y estado
+
+Lee `src/event_sourcing.rs` y responde:
+
+1. ¿Qué tipo representa un hecho aceptado?
+2. ¿Qué tipo conserva el stream append-only?
+3. ¿Qué función reconstruye el estado actual?
+4. ¿Qué error aparece si se confirma una reserva sin solicitud previa?
+5. ¿Por qué `ReservationEventKind::ReservationConfirmed` no es un comando?
+
+La meta es separar intención, hecho e historia. Una buena respuesta explica que
+el evento describe algo aceptado por el sistema, no algo que alguien pidió.
+
+### Nivel 2: construir una auditoría legible
+
+Usa `ReservationEventStream` para solicitar, confirmar y cancelar una reserva.
+Después crea una función que convierta los eventos en etiquetas legibles con
+versión, tipo de evento e identificador de reserva.
+
+Pistas:
+
+- `stream.events()` devuelve la historia en orden;
+- `ReservationEvent` expone `version()`, `kind()` y `reservation_id()`;
+- la auditoría no debe modificar el stream;
+- la historia completa debe explicar el estado final.
+
+### Nivel 3: defender cuándo sí usar event sourcing
+
+Imagina que el motor de reservas debe responder auditorías legales, reconstruir
+proyecciones de reportes y explicar cancelaciones meses después. Antes de
+agregar infraestructura, responde:
+
+- ¿qué preguntas no responde bien guardar solo estado actual?
+- ¿qué eventos deberían ser internos y cuáles podrían salir como contrato?
+- ¿qué harías cuando un evento viejo necesita cambiar de significado?
+- ¿cuándo conviene snapshot y qué no debe esconder?
+- ¿qué compensación registrarías si una reserva fue confirmada por error?
+
+Una buena respuesta habla de historia, confianza y costo operativo. No basta
+decir "usemos event sourcing" si no se explica qué pregunta histórica lo
+justifica.
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/06_event_sourcing.rs`](../examples/soluciones/06_event_sourcing.rs).
+También se compila como `examples/06_solucion.rs`.
+
+Una buena solución conserva estas ideas:
+
+- los comandos producen eventos nuevos en vez de mutar estado invisible;
+- el stream conserva los eventos en orden;
+- la auditoría se deriva de la misma historia que rehidrata el agregado;
+- la solución no edita eventos pasados;
+- el estado final se explica desde la secuencia completa.
+
+Ejecutar la solución:
+
+```bash
+cargo run --example 06_solucion
+```
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
-soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
-de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con
+especificación conceptual, modelo Rust mínimo, diagrama, ejemplos progresivos,
+ejercicios, solución sugerida y análisis de costos. Requiere revisión humana
+explícita de Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -231,3 +298,6 @@ de estado editorial.
   sin `unsafe` ni dependencias externas.
 - Los ejemplos progresivos deben demostrar historia feliz, historia inválida y
   auditoría sin infraestructura externa.
+- Este capítulo usa benchmark conceptual porque el costo relevante de event
+  sourcing es histórico y operativo: auditoría, versionado, reconstrucción y
+  compensación.

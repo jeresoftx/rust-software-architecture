@@ -51,7 +51,8 @@ especificación conceptual de eventos, streams, rehidratación, auditoría,
 alternativas, invariantes, costos y modos de falla, además de un modelo Rust
 mínimo con pruebas para stream append-only, rehidratación determinista, rechazo
 de historia inválida y auditoría, diagrama Mermaid y ejemplos progresivos.
-Todavía requiere ejercicios, solución sugerida y análisis de costos.
+También cuenta con ejercicios, solución sugerida y análisis de costos. Todavía
+requiere revisión humana antes de subir de estado editorial.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -111,5 +112,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `06. Event sourcing`: ejercicios, soluciones y
-costos.
+Cerrar el milestone de `06. Event sourcing` si todos los issues quedaron
+fusionados y continuar con `07. Arquitectura orientada a eventos`.
