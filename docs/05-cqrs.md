@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#21](https://github.com/jeresoftx/rust-software-architecture/issues/21), [#28](https://github.com/jeresoftx/rust-software-architecture/issues/28), [#27](https://github.com/jeresoftx/rust-software-architecture/issues/27) |
+| Issue | [#21](https://github.com/jeresoftx/rust-software-architecture/issues/21), [#28](https://github.com/jeresoftx/rust-software-architecture/issues/28), [#27](https://github.com/jeresoftx/rust-software-architecture/issues/27), [#26](https://github.com/jeresoftx/rust-software-architecture/issues/26) |
 | PR | Pendiente |
 | Milestone | `05. CQRS` |
 | Módulo Rust | `src/cqrs.rs` |
 | Ejemplos | `examples/05_basico.rs`, `examples/05_intermedio.rs`, `examples/05_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/05_cqrs.rs`, `examples/05_solucion.rs` |
 | Diagramas | `diagrams/05-cqrs.md` |
 
 CQRS separa dos preguntas que a menudo se mezclan por comodidad: ¿qué cambia el
@@ -134,6 +134,11 @@ Su beneficio principal es permitir que escritura y lectura evolucionen con
 modelos distintos. Su costo principal es que introduce sincronización y
 duplicación deliberada.
 
+El análisis de costos vive también como nota educativa en
+`benches/05-cqrs-costos.md`. Este capítulo no usa `cargo bench` porque medir la
+velocidad de crear structs no enseña la decisión arquitectónica; lo importante
+es medir claridad, duplicación, consistencia y observabilidad.
+
 ## 7. Modos de falla
 
 CQRS falla cuando:
@@ -202,15 +207,75 @@ es ver la frontera en un mismo proceso, con tipos pequeños y verificables.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: reconocer comandos y consultas
+
+Lee `src/cqrs.rs` y responde:
+
+1. ¿Qué tipo representa la intención de cambiar estado?
+2. ¿Qué tipo protege el lado de escritura?
+3. ¿Qué tipo comunica el hecho que ya ocurrió?
+4. ¿Qué tipo construye la vista de lectura?
+5. ¿Qué tipo consulta sin mutar la proyección?
+
+La meta es distinguir responsabilidad, no memorizar nombres. Una respuesta
+buena explica por qué `ConfirmReservation` no debe leer reportes y por qué
+`FindConfirmedReservations` no debe confirmar reservas.
+
+### Nivel 2: filtrar una vista de lectura
+
+Usa `FindConfirmedReservations` para obtener resúmenes y crea una función
+pequeña que filtre las reservas de un cliente específico. No cambies
+`ReservationWriteModel` para resolver este ejercicio.
+
+Pistas:
+
+- la consulta devuelve `ReservationSummary`;
+- `ReservationSummary` expone `customer_id()`;
+- el filtro pertenece al lado de lectura;
+- el modelo de escritura no debe enterarse del formato del reporte.
+
+### Nivel 3: explicar retraso de proyección
+
+Imagina que el modelo de escritura confirmó dos reservas, pero la proyección
+solo ha aplicado el primer evento. Antes de escribir más código, responde:
+
+- ¿qué puede prometer la API de lectura en ese instante?
+- ¿qué no debe prometer?
+- ¿cómo mostrarías el retraso a un operador o a otra API?
+- ¿qué métrica observarías antes de separar procesos o bases de datos?
+- ¿cuándo aceptarías consistencia eventual y cuándo la rechazarías?
+
+Una buena respuesta habla de expectativas de lectura, no solo de tecnología.
+CQRS no elimina la consistencia; la vuelve una decisión explícita.
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/05_cqrs.rs`](../examples/soluciones/05_cqrs.rs). También
+se compila como `examples/05_solucion.rs`.
+
+Una buena solución conserva estas ideas:
+
+- el comando confirma reservas solo por el lado de escritura;
+- los eventos son el puente hacia la proyección;
+- el filtro por cliente opera sobre resúmenes de lectura;
+- el retraso de proyección se nombra de forma explícita;
+- la consulta no muta la proyección ni vuelve a ejecutar reglas de negocio.
+
+Ejecutar la solución:
+
+```bash
+cargo run --example 05_solucion
+```
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
-soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
-de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con
+especificación conceptual, modelo Rust mínimo, diagrama, ejemplos progresivos,
+ejercicios, solución sugerida y análisis de costos. Requiere revisión humana
+explícita de Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -222,3 +287,5 @@ de estado editorial.
 - Las proyecciones deben derivarse de hechos del modelo de escritura, no de
   deseos de la pantalla.
 - Los ejemplos progresivos deben poder ejecutarse sin infraestructura externa.
+- Este capítulo usa benchmark conceptual porque el costo relevante de CQRS es
+  arquitectónico: duplicación, retraso de proyección y observabilidad.
