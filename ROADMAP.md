@@ -39,6 +39,12 @@ agregado, eventos de dominio y repositorio, diagrama Mermaid y ejemplos
 progresivos, ejercicios, solución sugerida y análisis de costos. Todavía
 requiere revisión humana antes de subir de estado editorial.
 
+El capítulo `05. CQRS` está en estado `draft`: ya cuenta con especificación
+conceptual de comandos, consultas, proyecciones, modelos de lectura, problema,
+alternativas, invariantes, costos y modos de falla. Todavía requiere modelo
+Rust mínimo, diagrama, ejemplos, ejercicios, solución sugerida y análisis de
+costos.
+
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
 correspondiente y etiquetado para mantener la regla del repositorio: un issue,
@@ -74,7 +80,7 @@ La progresión esperada es:
 | 02 | Arquitectura hexagonal | draft |
 | 03 | Clean Architecture | draft |
 | 04 | Domain-Driven Design | draft |
-| 05 | CQRS | planned |
+| 05 | CQRS | draft |
 | 06 | Event sourcing | planned |
 | 07 | Arquitectura orientada a eventos | planned |
 | 08 | Microservicios | planned |
@@ -97,6 +103,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Cerrar el milestone de `04. Domain-Driven Design` si no quedan issues abiertos
-y las verificaciones finales permanecen en verde. Después, el siguiente bloque
-natural es `05. CQRS`.
+Continuar el bloque autónomo de `05. CQRS`: modelo Rust mínimo, capítulo con
+diagrama y ejemplos, ejercicios, soluciones y costos.
