@@ -54,6 +54,12 @@ de historia inválida y auditoría, diagrama Mermaid y ejemplos progresivos.
 También cuenta con ejercicios, solución sugerida y análisis de costos. Todavía
 requiere revisión humana antes de subir de estado editorial.
 
+El capítulo `07. Arquitectura orientada a eventos` está en estado `draft`: ya
+cuenta con especificación conceptual de productores, consumidores, contratos,
+integración, alternativas, invariantes, costos y modos de falla. Todavía
+requiere modelo Rust mínimo, diagrama, ejemplos, ejercicios, solución sugerida y
+análisis de costos.
+
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
 correspondiente y etiquetado para mantener la regla del repositorio: un issue,
@@ -91,7 +97,7 @@ La progresión esperada es:
 | 04 | Domain-Driven Design | draft |
 | 05 | CQRS | draft |
 | 06 | Event sourcing | draft |
-| 07 | Arquitectura orientada a eventos | planned |
+| 07 | Arquitectura orientada a eventos | draft |
 | 08 | Microservicios | planned |
 
 ## Alineación RFC-0001
@@ -112,5 +118,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Cerrar el milestone de `06. Event sourcing` si todos los issues quedaron
-fusionados y continuar con `07. Arquitectura orientada a eventos`.
+Continuar el bloque autónomo de `07. Arquitectura orientada a eventos`: modelo
+Rust mínimo, capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
