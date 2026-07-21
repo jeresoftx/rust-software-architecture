@@ -1,6 +1,7 @@
 pub const COURSE_NAME: &str = "Arquitectura de software en Rust";
 
 pub mod clean_architecture;
+pub mod domain_driven_design;
 pub mod hexagonal_architecture;
 pub mod modular_monolith;
 
@@ -74,6 +75,18 @@ mod tests {
         application::{ConfirmReservation, ConfirmReservationRequest},
         domain::ReservationStatus as CleanReservationStatus,
         CleanArchitectureError,
+    };
+    use super::domain_driven_design::{
+        domain::{
+            CustomerId as DddCustomerId, Money as DddMoney, OfferId as DddOfferId,
+            Reservation as DddReservation, ReservationId as DddReservationId,
+            ReservationStatus as DddReservationStatus,
+        },
+        events::DomainEvent,
+        repositories::{
+            InMemoryReservationRepository as DddReservationRepository, ReservationRepository,
+        },
+        DomainDrivenDesignError,
     };
     use super::hexagonal_architecture::{
         adapters::{FailingReservationStore, InMemoryReservationStore},
@@ -256,5 +269,75 @@ mod tests {
         ));
 
         assert_eq!(result, Err(CleanArchitectureError::RepositoryFailed));
+    }
+
+    #[test]
+    fn ddd_value_objects_reject_invalid_language() {
+        assert_eq!(
+            DddReservationId::new(""),
+            Err(DomainDrivenDesignError::InvalidValue)
+        );
+        assert_eq!(DddMoney::mxn(0), Err(DomainDrivenDesignError::InvalidValue));
+    }
+
+    #[test]
+    fn ddd_aggregate_confirms_reservation_and_records_domain_event() {
+        let mut reservation = DddReservation::request(
+            DddReservationId::new("RSV-DDD-001").expect("valid reservation id"),
+            DddOfferId::new("flight-mx-ddd").expect("valid offer id"),
+            DddCustomerId::new("customer-ddd-001").expect("valid customer id"),
+            DddMoney::mxn(2_100).expect("valid money"),
+        );
+
+        let event = reservation.confirm().expect("confirmed reservation");
+
+        assert_eq!(reservation.status(), DddReservationStatus::Confirmed);
+        assert_eq!(
+            event,
+            DomainEvent::ReservationConfirmed {
+                reservation_id: "RSV-DDD-001".to_owned()
+            }
+        );
+    }
+
+    #[test]
+    fn ddd_cancelled_reservation_cannot_be_confirmed_again() {
+        let mut reservation = DddReservation::request(
+            DddReservationId::new("RSV-DDD-002").expect("valid reservation id"),
+            DddOfferId::new("flight-mx-ddd").expect("valid offer id"),
+            DddCustomerId::new("customer-ddd-002").expect("valid customer id"),
+            DddMoney::mxn(1_800).expect("valid money"),
+        );
+
+        reservation.confirm().expect("confirmed reservation");
+        reservation.cancel().expect("cancelled reservation");
+
+        assert_eq!(
+            reservation.confirm(),
+            Err(DomainDrivenDesignError::InvalidTransition)
+        );
+        assert_eq!(reservation.status(), DddReservationStatus::Cancelled);
+    }
+
+    #[test]
+    fn ddd_repository_stores_aggregate_without_owning_rules() {
+        let mut reservation = DddReservation::request(
+            DddReservationId::new("RSV-DDD-003").expect("valid reservation id"),
+            DddOfferId::new("flight-mx-ddd").expect("valid offer id"),
+            DddCustomerId::new("customer-ddd-003").expect("valid customer id"),
+            DddMoney::mxn(2_400).expect("valid money"),
+        );
+        reservation.confirm().expect("confirmed reservation");
+
+        let mut repository = DddReservationRepository::default();
+        repository
+            .save(reservation.clone())
+            .expect("saved aggregate");
+
+        assert_eq!(repository.saved_count(), 1);
+        assert_eq!(
+            repository.find(reservation.id()).expect("stored aggregate"),
+            &reservation
+        );
     }
 }

@@ -3,7 +3,7 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#19](https://github.com/jeresoftx/rust-software-architecture/issues/19) |
+| Issue | [#19](https://github.com/jeresoftx/rust-software-architecture/issues/19), [#16](https://github.com/jeresoftx/rust-software-architecture/issues/16) |
 | PR | Pendiente |
 | Milestone | `04. Domain-Driven Design` |
 | Módulo Rust | `src/domain_driven_design.rs` |
@@ -98,6 +98,11 @@ El objetivo no es crear un framework DDD. El objetivo es que el lector vea qué
 cambia cuando el lenguaje del dominio deja de ser texto alrededor del código y
 se convierte en tipos, métodos y errores.
 
+El modelo se implementa en `src/domain_driven_design.rs` y se valida con
+pruebas que cubren value objects inválidos, confirmación del agregado,
+cancelación como transición de estado, eventos de dominio y persistencia del
+agregado mediante un repositorio en memoria.
+
 ## 5. Invariantes
 
 El capítulo debe proteger estas reglas:
@@ -112,6 +117,11 @@ El capítulo debe proteger estas reglas:
 
 Estas invariantes deben convertirse en pruebas durante la implementación del
 modelo Rust mínimo.
+
+Las primeras pruebas del capítulo ya protegen cuatro fronteras: los value
+objects rechazan valores vacíos o precio cero, el agregado decide sus
+transiciones, los eventos describen hechos confirmados y el repositorio guarda
+el agregado sin apropiarse de sus reglas.
 
 ## 6. Costos
 
@@ -166,9 +176,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere modelo Rust
-mínimo, diagrama, ejemplos, ejercicios, soluciones, costos finales y revisión
-humana explícita de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
+ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
+Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 

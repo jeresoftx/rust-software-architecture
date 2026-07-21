@@ -34,8 +34,9 @@ requiere revisión humana antes de subir de estado editorial.
 El capítulo `04. Domain-Driven Design` está en estado `draft`: ya cuenta con
 especificación conceptual de lenguaje ubicuo, value objects, entidades,
 agregados, bounded contexts, problema, alternativas, invariantes, costos y modos
-de falla. Todavía requiere modelo Rust mínimo, diagrama, ejemplos, ejercicios,
-solución sugerida y análisis de costos.
+de falla, además de un modelo Rust mínimo con pruebas para value objects,
+agregado, eventos de dominio y repositorio. Todavía requiere diagrama, ejemplos,
+ejercicios, solución sugerida y análisis de costos.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
