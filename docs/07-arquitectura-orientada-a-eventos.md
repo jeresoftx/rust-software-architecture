@@ -3,7 +3,7 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#33](https://github.com/jeresoftx/rust-software-architecture/issues/33) |
+| Issue | [#33](https://github.com/jeresoftx/rust-software-architecture/issues/33), [#32](https://github.com/jeresoftx/rust-software-architecture/issues/32) |
 | PR | Pendiente |
 | Milestone | `07. Arquitectura orientada a eventos` |
 | Módulo Rust | `src/event_driven_architecture.rs` |
@@ -99,6 +99,11 @@ El objetivo no es crear un broker productivo. El objetivo es que el lector vea
 cómo un hecho puede cruzar límites sin convertir al productor en orquestador de
 todas las reacciones.
 
+El modelo se implementa en `src/event_driven_architecture.rs` y se valida con
+pruebas que cubren contrato estable, publicación por productor, fan-out a
+consumidores, idempotencia básica y aislamiento de fallas de consumidor frente
+al evento ya publicado.
+
 ## 5. Invariantes
 
 El capítulo debe proteger estas reglas:
@@ -172,9 +177,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere modelo Rust
-mínimo, diagrama, ejemplos, ejercicios, soluciones, costos finales y revisión
-humana explícita de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
+ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
+Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
@@ -186,3 +191,5 @@ humana explícita de Joel antes de avanzar de estado editorial.
   instrucciones técnicas.
 - La idempotencia del consumidor es una invariante del diseño, no un detalle de
   implementación opcional.
+- El modelo Rust mínimo protege contrato, fan-out e idempotencia sin `unsafe`
+  ni dependencias externas.
