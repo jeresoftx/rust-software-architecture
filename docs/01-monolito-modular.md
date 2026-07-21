@@ -88,7 +88,7 @@ El despliegue sigue siendo simple, pero el código aprende a respetar contratos.
 
 ## 4. Modelo Rust esperado
 
-El modelo mínimo debe representar tres módulos:
+El modelo mínimo representa tres módulos:
 
 - `inventory`: administra capacidad de una oferta;
 - `pricing`: construye cotizaciones válidas;
@@ -96,6 +96,10 @@ El modelo mínimo debe representar tres módulos:
 
 El objetivo del código no es simular una agencia de viajes. El objetivo es
 mostrar que un módulo puede colaborar con otro sin invadir sus detalles.
+
+El modelo se implementa en `src/modular_monolith.rs` y se valida con pruebas que
+cubren confirmación, rechazo de cotizaciones expiradas y rechazo de
+sobrerreserva.
 
 ## 5. Invariantes
 
@@ -165,9 +169,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere el modelo Rust
-mínimo, ejemplos, diagrama, ejercicios, soluciones y revisión humana explícita
-de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
+Rust mínimo; todavía requiere ejemplos, diagrama, ejercicios, soluciones y
+revisión humana explícita de Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 

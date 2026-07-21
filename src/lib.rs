@@ -1,5 +1,7 @@
 pub const COURSE_NAME: &str = "Arquitectura de software en Rust";
 
+pub mod modular_monolith;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct PlannedChapter {
     pub number: u8,
@@ -65,6 +67,13 @@ pub fn chapter_count() -> usize {
 
 #[cfg(test)]
 mod tests {
+    use super::modular_monolith::{
+        booking::{BookingService, ReservationId},
+        inventory::{Capacity, Inventory},
+        pricing::{Clock, Money, PricingService},
+        ModularMonolithError,
+    };
+
     #[test]
     fn exposes_course_name() {
         assert_eq!(super::COURSE_NAME, "Arquitectura de software en Rust");
@@ -76,5 +85,68 @@ mod tests {
         assert!(super::PLANNED_CHAPTERS
             .iter()
             .all(|chapter| chapter.status == "planned"));
+    }
+
+    #[test]
+    fn modular_monolith_confirms_reservation_through_internal_contracts() {
+        let clock = Clock::fixed(1_000);
+        let mut inventory = Inventory::new(Capacity::new(2).expect("valid capacity"));
+        let pricing = PricingService::new(clock);
+        let quote = pricing
+            .quote("flight-mx-001", Money::mxn(1_500), 30)
+            .expect("valid quote");
+
+        let reservation = BookingService::confirm(
+            ReservationId::new("RSV-001").expect("valid reservation id"),
+            quote,
+            &mut inventory,
+            clock,
+        )
+        .expect("confirmed reservation");
+
+        assert_eq!(reservation.id().as_str(), "RSV-001");
+        assert_eq!(reservation.offer_id(), "flight-mx-001");
+        assert_eq!(inventory.available_units(), 1);
+    }
+
+    #[test]
+    fn modular_monolith_rejects_expired_quote_without_consuming_inventory() {
+        let quoted_at = Clock::fixed(1_000);
+        let confirmed_at = Clock::fixed(1_031);
+        let mut inventory = Inventory::new(Capacity::new(1).expect("valid capacity"));
+        let pricing = PricingService::new(quoted_at);
+        let quote = pricing
+            .quote("flight-mx-002", Money::mxn(900), 30)
+            .expect("valid quote");
+
+        let result = BookingService::confirm(
+            ReservationId::new("RSV-002").expect("valid reservation id"),
+            quote,
+            &mut inventory,
+            confirmed_at,
+        );
+
+        assert_eq!(result, Err(ModularMonolithError::QuoteExpired));
+        assert_eq!(inventory.available_units(), 1);
+    }
+
+    #[test]
+    fn modular_monolith_rejects_overbooking() {
+        let clock = Clock::fixed(1_000);
+        let mut inventory = Inventory::new(Capacity::new(0).expect("valid capacity"));
+        let pricing = PricingService::new(clock);
+        let quote = pricing
+            .quote("flight-mx-003", Money::mxn(1_200), 30)
+            .expect("valid quote");
+
+        let result = BookingService::confirm(
+            ReservationId::new("RSV-003").expect("valid reservation id"),
+            quote,
+            &mut inventory,
+            clock,
+        );
+
+        assert_eq!(result, Err(ModularMonolithError::InventoryUnavailable));
+        assert_eq!(inventory.available_units(), 0);
     }
 }
