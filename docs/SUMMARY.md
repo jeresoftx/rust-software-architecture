@@ -30,3 +30,4 @@
 ## Cierre editorial
 
 - [Navegación y enlaces](./09-navegacion-y-enlaces.md)
+- [Publicación candidata](./10-publicacion-candidata.md)

@@ -1,6 +1,6 @@
 # Plan de trabajo: rust-software-architecture
 
-> Estado: cierre editorial en progreso.
+> Estado: publicación candidata preparada.
 > Curso: Arquitectura de software en Rust.  
 > RFC: RFC-0001 §10, §13, §14, §15, §17 y §20.
 
@@ -107,9 +107,9 @@ GitHub la reinicia, se debe restaurar antes de comenzar un bloque autónomo.
 
 - [x] Alinear README, ROADMAP, manifiesto y estados de capítulos.
 - [x] Preparar navegación mdBook y verificación de enlaces.
-- [ ] Documentar publicación candidata, riesgos y revisión humana necesaria.
+- [x] Documentar publicación candidata, riesgos y revisión humana necesaria.
 
 ## Siguiente paso natural
 
-Documentar publicación candidata, riesgos y revisión humana necesaria sin
-marcar capítulos como `reviewed` ni `published`.
+Iniciar revisión humana de Joel sobre el curso candidato. No marcar capítulos
+como `reviewed` ni `published` hasta que esa revisión ocurra.
