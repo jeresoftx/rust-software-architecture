@@ -28,8 +28,8 @@ El capítulo `03. Clean Architecture` está en estado `draft`: ya cuenta con
 especificación conceptual de entidades, casos de uso, dirección de dependencias,
 problema, alternativas e invariantes, además de un modelo Rust mínimo con
 pruebas para entidad, caso de uso y repositorio, diagrama Mermaid y ejemplos
-progresivos. Todavía requiere ejercicios, solución sugerida y análisis de
-costos.
+progresivos, ejercicios, solución sugerida y análisis de costos. Todavía
+requiere revisión humana antes de subir de estado editorial.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -89,5 +89,6 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `03. Clean Architecture`: ejercicios,
-soluciones y costos.
+Cerrar el milestone de `03. Clean Architecture` si no quedan issues abiertos y
+las verificaciones finales permanecen en verde. Después, el siguiente bloque
+natural es `04. Domain-Driven Design`.
