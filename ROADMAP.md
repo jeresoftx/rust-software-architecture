@@ -20,8 +20,8 @@ requiere revisión humana antes de subir de estado editorial.
 
 El capítulo `02. Arquitectura hexagonal` está en estado `draft`: ya cuenta con
 especificación conceptual de puertos, adaptadores, problema, alternativas e
-invariantes. Todavía requiere modelo Rust mínimo, diagrama, ejemplos,
-ejercicios, solución sugerida y análisis de costos.
+invariantes, modelo Rust mínimo, diagrama Mermaid y ejemplos progresivos.
+Todavía requiere ejercicios, solución sugerida y análisis de costos.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -81,5 +81,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `02. Arquitectura hexagonal`: modelo Rust
-mínimo, capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
+Continuar el bloque autónomo de `02. Arquitectura hexagonal`: ejercicios,
+soluciones y costos.
