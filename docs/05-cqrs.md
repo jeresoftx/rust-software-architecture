@@ -3,7 +3,7 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#21](https://github.com/jeresoftx/rust-software-architecture/issues/21) |
+| Issue | [#21](https://github.com/jeresoftx/rust-software-architecture/issues/21), [#28](https://github.com/jeresoftx/rust-software-architecture/issues/28) |
 | PR | Pendiente |
 | Milestone | `05. CQRS` |
 | Módulo Rust | `src/cqrs.rs` |
@@ -95,6 +95,10 @@ El objetivo no es crear una plataforma CQRS. El objetivo es que el lector vea
 cómo una decisión de escritura puede alimentar una vista de lectura sin que la
 consulta se apropie de las reglas del comando.
 
+El modelo se implementa en `src/cqrs.rs` y se valida con pruebas que cubren
+comando válido, comando inválido sin mutar escritura, proyección de eventos a
+modelo de lectura y consulta que no modifica la proyección.
+
 ## 5. Invariantes
 
 El capítulo debe proteger estas reglas:
@@ -110,6 +114,10 @@ El capítulo debe proteger estas reglas:
 
 Estas invariantes deben convertirse en pruebas durante la implementación del
 modelo Rust mínimo.
+
+Las primeras pruebas del capítulo ya protegen tres fronteras: el comando es la
+única entrada de escritura, la proyección deriva su estado de hechos
+confirmados y la consulta devuelve una copia de lectura sin modificar la vista.
 
 ## 6. Costos
 
@@ -162,9 +170,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere modelo Rust
-mínimo, diagrama, ejemplos, ejercicios, soluciones, costos finales y revisión
-humana explícita de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
+ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
+Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
