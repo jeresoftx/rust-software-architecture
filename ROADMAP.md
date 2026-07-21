@@ -43,8 +43,8 @@ El capítulo `05. CQRS` está en estado `draft`: ya cuenta con especificación
 conceptual de comandos, consultas, proyecciones, modelos de lectura, problema,
 alternativas, invariantes, costos y modos de falla, además de un modelo Rust
 mínimo con pruebas para comando, evento, proyección y consulta, diagrama Mermaid
-y ejemplos progresivos. Todavía requiere ejercicios, solución sugerida y
-análisis de costos.
+y ejemplos progresivos, ejercicios, solución sugerida y análisis de costos.
+Todavía requiere revisión humana antes de subir de estado editorial.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -104,4 +104,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `05. CQRS`: ejercicios, soluciones y costos.
+Cerrar el milestone de `05. CQRS` si todos los issues quedaron fusionados y
+continuar con `06. Event sourcing`.
