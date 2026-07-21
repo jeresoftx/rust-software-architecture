@@ -13,6 +13,11 @@ la frontera del curso, la ruta de lectura, el glosario base, la plantilla de
 capítulo, el flujo de trabajo con GitHub, el modo autónomo con revisión diferida
 y el plan maestro en forma de checklist.
 
+El capítulo `01. Monolito modular` está en estado `draft`: ya cuenta con
+especificación conceptual, modelo Rust mínimo, diagrama Mermaid y ejemplos
+progresivos. Todavía requiere ejercicios, soluciones y costos finales antes de
+considerarse completo para revisión humana.
+
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
 correspondiente y etiquetado para mantener la regla del repositorio: un issue,
@@ -71,5 +76,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `01. Monolito modular`: modelo Rust mínimo,
-capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
+Continuar el bloque autónomo de `01. Monolito modular`: ejercicios, soluciones
+y costos.
