@@ -1,5 +1,6 @@
 pub const COURSE_NAME: &str = "Arquitectura de software en Rust";
 
+pub mod clean_architecture;
 pub mod hexagonal_architecture;
 pub mod modular_monolith;
 
@@ -68,6 +69,12 @@ pub fn chapter_count() -> usize {
 
 #[cfg(test)]
 mod tests {
+    use super::clean_architecture::{
+        adapters::{FailingReservationRepository, InMemoryReservationRepository},
+        application::{ConfirmReservation, ConfirmReservationRequest},
+        domain::ReservationStatus as CleanReservationStatus,
+        CleanArchitectureError,
+    };
     use super::hexagonal_architecture::{
         adapters::{FailingReservationStore, InMemoryReservationStore},
         application::{ConfirmBooking, ConfirmBookingCommand},
@@ -202,5 +209,52 @@ mod tests {
         ));
 
         assert_eq!(result, Err(HexagonalArchitectureError::OutputPortFailed));
+    }
+
+    #[test]
+    fn clean_architecture_confirms_reservation_with_entity_and_repository() {
+        let mut repository = InMemoryReservationRepository::default();
+        let use_case = ConfirmReservation::new(&mut repository);
+
+        let reservation = use_case
+            .execute(ConfirmReservationRequest::new(
+                "RSV-CLEAN-001",
+                "flight-mx-clean",
+                "customer-clean-001",
+            ))
+            .expect("confirmed reservation");
+
+        assert_eq!(reservation.id().as_str(), "RSV-CLEAN-001");
+        assert_eq!(reservation.status(), CleanReservationStatus::Confirmed);
+        assert_eq!(repository.saved_count(), 1);
+    }
+
+    #[test]
+    fn clean_architecture_rejects_invalid_request_before_repository() {
+        let mut repository = InMemoryReservationRepository::default();
+        let use_case = ConfirmReservation::new(&mut repository);
+
+        let result = use_case.execute(ConfirmReservationRequest::new(
+            "",
+            "flight-mx-clean",
+            "customer-clean-001",
+        ));
+
+        assert_eq!(result, Err(CleanArchitectureError::InvalidInput));
+        assert_eq!(repository.saved_count(), 0);
+    }
+
+    #[test]
+    fn clean_architecture_surfaces_repository_failure() {
+        let mut repository = FailingReservationRepository;
+        let use_case = ConfirmReservation::new(&mut repository);
+
+        let result = use_case.execute(ConfirmReservationRequest::new(
+            "RSV-CLEAN-002",
+            "flight-mx-clean",
+            "customer-clean-002",
+        ));
+
+        assert_eq!(result, Err(CleanArchitectureError::RepositoryFailed));
     }
 }

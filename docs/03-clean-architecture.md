@@ -3,7 +3,7 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#18](https://github.com/jeresoftx/rust-software-architecture/issues/18) |
+| Issue | [#18](https://github.com/jeresoftx/rust-software-architecture/issues/18), [#20](https://github.com/jeresoftx/rust-software-architecture/issues/20) |
 | PR | Pendiente |
 | Milestone | `03. Clean Architecture` |
 | Módulo Rust | `src/clean_architecture.rs` |
@@ -94,6 +94,10 @@ El objetivo no es crear carpetas ceremoniales. El objetivo es que el lector vea
 qué cambia cuando la regla de negocio baja a una entidad y el caso de uso deja
 de ser un contenedor de todo.
 
+El modelo se implementa en `src/clean_architecture.rs` y se valida con pruebas
+que cubren confirmación exitosa, rechazo de entrada inválida antes de tocar
+persistencia y propagación explícita de una falla de repositorio.
+
 ## 5. Invariantes
 
 El capítulo debe proteger estas reglas:
@@ -107,6 +111,11 @@ El capítulo debe proteger estas reglas:
 
 Estas invariantes deben convertirse en pruebas durante la implementación del
 modelo Rust mínimo.
+
+Las primeras pruebas del capítulo ya protegen tres fronteras: la entidad
+mantiene estado confirmado explícito, el caso de uso transforma datos primitivos
+en intención válida y el repositorio queda detrás de un contrato que el núcleo
+puede usar sin conocer el adaptador concreto.
 
 ## 6. Costos
 
@@ -156,9 +165,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere modelo Rust
-mínimo, ejemplos, diagrama, ejercicios, soluciones, costos finales y revisión
-humana explícita de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
+ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
+Joel antes de avanzar de estado editorial.
 
 ### Decisiones registradas
 
