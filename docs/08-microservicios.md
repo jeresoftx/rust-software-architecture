@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#35](https://github.com/jeresoftx/rust-software-architecture/issues/35), [#31](https://github.com/jeresoftx/rust-software-architecture/issues/31) |
+| Issue | [#35](https://github.com/jeresoftx/rust-software-architecture/issues/35), [#31](https://github.com/jeresoftx/rust-software-architecture/issues/31), [#29](https://github.com/jeresoftx/rust-software-architecture/issues/29) |
 | PR | Pendiente |
 | Milestone | `08. Microservicios` |
 | Módulo Rust | `src/microservices.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/08_basico.rs`, `examples/08_intermedio.rs`, `examples/08_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/08-microservicios.md` |
 
 Microservicios significa partir un sistema en servicios pequeños, autónomos y
 desplegables de forma independiente alrededor de límites de negocio. No es una
@@ -168,11 +168,50 @@ la frontera conceptual sea visible antes de introducir plataformas.
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El diagrama canónico vive en
+[`diagrams/08-microservicios.md`](../diagrams/08-microservicios.md).
+
+```mermaid
+flowchart LR
+    Client["Cliente / caso de uso"] --> Contract["ConfirmReservationRequest\ncontrato v1"]
+    Contract --> Reservations["ReservationService\nowner: reservations"]
+    Reservations --> Payments["PaymentService\nowner: payments"]
+    Reservations --> Inventory["InventoryService\nowner: inventory"]
+    Payments --> Authorization["PaymentAuthorization"]
+    Inventory --> Hold["InventoryHold"]
+    Authorization --> Confirmation["ReservationConfirmation\ncontrato v1"]
+    Hold --> Confirmation
+
+    Catalog["DataOwnershipCatalog"] -. evita .-> Shared["tabla compartida como API"]
+    Payments -. falla remota .-> Partial["falla parcial visible"]
+```
+
+El servicio de reservas coordina una confirmación mediante contratos. Pagos e
+inventario conservan sus propios datos y responden con resultados explícitos.
+El diagrama deja visibles dos costos: una tabla compartida rompe la frontera, y
+un servicio remoto puede fallar aunque el proceso local esté sano.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos se ejecutan con `cargo run --example` y avanzan desde ownership de
+datos hasta falla parcial.
+
+| Nivel | Archivo | Propósito |
+|-------|---------|-----------|
+| Básico | `examples/08_basico.rs` | Reclamar ownership de tablas y rechazar una tabla compartida como API. |
+| Intermedio | `examples/08_intermedio.rs` | Confirmar una reserva mediante contratos entre reservas, pagos e inventario. |
+| Realista | `examples/08_realista.rs` | Mostrar que una falla remota impide confirmar estado local. |
+
+```bash
+cargo run --example 08_basico
+cargo run --example 08_intermedio
+cargo run --example 08_realista
+```
+
+El ejemplo básico enseña que autonomía empieza por datos propios. El intermedio
+muestra colaboración mediante contratos sin compartir tablas internas. El
+realista vuelve explícito el costo de distribuir: una dependencia remota puede
+estar caída y el servicio local debe responder sin inventar éxito.
 
 ## 11. Ejercicios
 
@@ -182,9 +221,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere diagrama,
-ejemplos, ejercicios, soluciones, costos finales y revisión humana explícita de
-Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Requiere ejercicios,
+soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
+de estado editorial.
 
 ### Decisiones registradas
 
@@ -197,3 +236,5 @@ Joel antes de avanzar de estado editorial.
   eventual con trazabilidad suficiente.
 - El modelo Rust mínimo protege contratos explícitos, ownership de datos y
   fallas remotas visibles sin `unsafe` ni dependencias externas.
+- Los ejemplos progresivos enseñan ownership de datos, colaboración por
+  contratos y falla parcial sin introducir infraestructura externa.
