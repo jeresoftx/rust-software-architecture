@@ -7,7 +7,7 @@
     "repository": "https://github.com/jeresoftx/rust-software-architecture",
     "collection": "camino troncal",
     "semester": 5,
-    "status": "planned",
+    "status": "draft",
     "language": "es-MX",
     "summary": "Curso de Jeresoft Academy para estudiar límites, módulos, contratos, estilos arquitectónicos, evolución técnica y decisiones sostenibles con modelos Rust verificables.",
     "relatedCourses": [
@@ -31,7 +31,7 @@
       "id": "monolito-modular",
       "title": "Monolito modular",
       "slug": "monolito-modular",
-      "status": "planned",
+      "status": "draft",
       "milestone": "01. Monolito modular",
       "module": "src/modular_monolith.rs",
       "themes": ["módulos", "límites", "cohesión", "despliegue único"]
@@ -41,7 +41,7 @@
       "id": "arquitectura-hexagonal",
       "title": "Arquitectura hexagonal",
       "slug": "arquitectura-hexagonal",
-      "status": "planned",
+      "status": "draft",
       "milestone": "02. Arquitectura hexagonal",
       "module": "src/hexagonal_architecture.rs",
       "themes": ["puertos", "adaptadores", "infraestructura", "testabilidad"]
@@ -51,7 +51,7 @@
       "id": "clean-architecture",
       "title": "Clean Architecture",
       "slug": "clean-architecture",
-      "status": "planned",
+      "status": "draft",
       "milestone": "03. Clean Architecture",
       "module": "src/clean_architecture.rs",
       "themes": ["casos de uso", "entidades", "dependencias", "capas"]
@@ -61,7 +61,7 @@
       "id": "domain-driven-design",
       "title": "Domain-Driven Design",
       "slug": "domain-driven-design",
-      "status": "planned",
+      "status": "draft",
       "milestone": "04. Domain-Driven Design",
       "module": "src/domain_driven_design.rs",
       "themes": ["lenguaje ubicuo", "agregados", "value objects", "bounded contexts"]
@@ -71,7 +71,7 @@
       "id": "cqrs",
       "title": "CQRS",
       "slug": "cqrs",
-      "status": "planned",
+      "status": "draft",
       "milestone": "05. CQRS",
       "module": "src/cqrs.rs",
       "themes": ["comandos", "consultas", "proyecciones", "modelos de lectura"]
@@ -81,7 +81,7 @@
       "id": "event-sourcing",
       "title": "Event sourcing",
       "slug": "event-sourcing",
-      "status": "planned",
+      "status": "draft",
       "milestone": "06. Event sourcing",
       "module": "src/event_sourcing.rs",
       "themes": ["eventos", "streams", "rehidratación", "auditoría"]
@@ -91,7 +91,7 @@
       "id": "arquitectura-orientada-a-eventos",
       "title": "Arquitectura orientada a eventos",
       "slug": "arquitectura-orientada-a-eventos",
-      "status": "planned",
+      "status": "draft",
       "milestone": "07. Arquitectura orientada a eventos",
       "module": "src/event_driven_architecture.rs",
       "themes": ["productores", "consumidores", "contratos", "integración"]
@@ -101,7 +101,7 @@
       "id": "microservicios",
       "title": "Microservicios",
       "slug": "microservicios",
-      "status": "planned",
+      "status": "draft",
       "milestone": "08. Microservicios",
       "module": "src/microservices.rs",
       "themes": ["límites de servicio", "datos propios", "operación", "costos"]

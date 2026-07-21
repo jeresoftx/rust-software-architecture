@@ -8,10 +8,10 @@ orienta el avance, pero no convierte el curso en una carrera por terminar.
 
 ## Estado actual
 
-El repositorio acaba de entrar en desarrollo. La estructura inicial ya declara
-la frontera del curso, la ruta de lectura, el glosario base, la plantilla de
-capítulo, el flujo de trabajo con GitHub, el modo autónomo con revisión diferida
-y el plan maestro en forma de checklist.
+El repositorio completó la primera construcción técnica de los ocho capítulos
+del curso. La estructura ya declara la frontera, ruta de lectura, glosario
+base, plantilla de capítulo, flujo de trabajo con GitHub, modo autónomo con
+revisión diferida y plan maestro en forma de checklist.
 
 El capítulo `01. Monolito modular` está en estado `draft`: ya cuenta con
 especificación conceptual, modelo Rust mínimo, diagrama Mermaid y ejemplos
@@ -83,6 +83,10 @@ agrupada por `Milestone`, porque el avance se revisa por fase o capítulo.
 Ningún capítulo está marcado como `reviewed` ni `published`, porque la revisión
 humana de Joel sigue siendo obligatoria según RFC-0001 §20.
 
+Estado editorial global: `draft`. El curso puede prepararse como publicación
+candidata, pero no debe publicarse ni ingerirse como contenido revisado hasta
+que Joel cierre la revisión humana.
+
 ## Progresión del Semestre 5
 
 El curso abre el Semestre 5 con arquitectura antes de pasar a plataformas cloud.
@@ -128,5 +132,6 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Cerrar el milestone `08. Microservicios` si todos sus issues quedaron cerrados
-y continuar con `09. Cierre editorial y publicación`.
+Continuar el milestone `09. Cierre editorial y publicación`: preparar
+navegación mdBook, verificar enlaces y documentar publicación candidata con
+riesgos y revisión humana necesaria.
