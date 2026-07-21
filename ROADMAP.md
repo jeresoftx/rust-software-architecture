@@ -35,8 +35,9 @@ El capítulo `04. Domain-Driven Design` está en estado `draft`: ya cuenta con
 especificación conceptual de lenguaje ubicuo, value objects, entidades,
 agregados, bounded contexts, problema, alternativas, invariantes, costos y modos
 de falla, además de un modelo Rust mínimo con pruebas para value objects,
-agregado, eventos de dominio y repositorio. Todavía requiere diagrama, ejemplos,
-ejercicios, solución sugerida y análisis de costos.
+agregado, eventos de dominio y repositorio, diagrama Mermaid y ejemplos
+progresivos. Todavía requiere ejercicios, solución sugerida y análisis de
+costos.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -96,5 +97,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `04. Domain-Driven Design`: modelo Rust mínimo,
-capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
+Continuar el bloque autónomo de `04. Domain-Driven Design`: ejercicios,
+soluciones y costos.
