@@ -1,5 +1,6 @@
 pub const COURSE_NAME: &str = "Arquitectura de software en Rust";
 
+pub mod hexagonal_architecture;
 pub mod modular_monolith;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -67,6 +68,12 @@ pub fn chapter_count() -> usize {
 
 #[cfg(test)]
 mod tests {
+    use super::hexagonal_architecture::{
+        adapters::{FailingReservationStore, InMemoryReservationStore},
+        application::{ConfirmBooking, ConfirmBookingCommand},
+        domain::ReservationStatus,
+        HexagonalArchitectureError,
+    };
     use super::modular_monolith::{
         booking::{BookingService, ReservationId},
         inventory::{Capacity, Inventory},
@@ -148,5 +155,52 @@ mod tests {
 
         assert_eq!(result, Err(ModularMonolithError::InventoryUnavailable));
         assert_eq!(inventory.available_units(), 0);
+    }
+
+    #[test]
+    fn hexagonal_use_case_confirms_booking_through_output_port() {
+        let mut store = InMemoryReservationStore::default();
+        let use_case = ConfirmBooking::new(&mut store);
+
+        let reservation = use_case
+            .execute(ConfirmBookingCommand::new(
+                "RSV-HEX-001",
+                "flight-mx-hex",
+                "quote-hex-001",
+            ))
+            .expect("confirmed reservation");
+
+        assert_eq!(reservation.id().as_str(), "RSV-HEX-001");
+        assert_eq!(reservation.status(), ReservationStatus::Confirmed);
+        assert_eq!(store.saved_count(), 1);
+    }
+
+    #[test]
+    fn hexagonal_use_case_rejects_invalid_input_before_touching_adapter() {
+        let mut store = InMemoryReservationStore::default();
+        let use_case = ConfirmBooking::new(&mut store);
+
+        let result = use_case.execute(ConfirmBookingCommand::new(
+            "",
+            "flight-mx-hex",
+            "quote-hex-001",
+        ));
+
+        assert_eq!(result, Err(HexagonalArchitectureError::InvalidInput));
+        assert_eq!(store.saved_count(), 0);
+    }
+
+    #[test]
+    fn hexagonal_use_case_surfaces_output_port_failure() {
+        let mut store = FailingReservationStore;
+        let use_case = ConfirmBooking::new(&mut store);
+
+        let result = use_case.execute(ConfirmBookingCommand::new(
+            "RSV-HEX-002",
+            "flight-mx-hex",
+            "quote-hex-002",
+        ));
+
+        assert_eq!(result, Err(HexagonalArchitectureError::OutputPortFailed));
     }
 }
