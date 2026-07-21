@@ -66,8 +66,9 @@ El capítulo `08. Microservicios` está en estado `draft`: ya cuenta con
 especificación conceptual de límites de servicio, datos propios, contratos,
 operación, alternativas, invariantes, costos y modos de falla, además de un
 modelo Rust mínimo con pruebas para contratos explícitos, ownership de datos y
-falla remota visible. Todavía requiere diagrama, ejemplos, ejercicios, solución
-sugerida y análisis de costos.
+falla remota visible. También cuenta con diagrama Mermaid y ejemplos
+progresivos. Todavía requiere ejercicios, solución sugerida y análisis de
+costos.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
@@ -127,5 +128,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Continuar el bloque autónomo de `08. Microservicios`: modelo Rust mínimo,
-diagrama y ejemplos, ejercicios, solución sugerida y análisis de costos.
+Continuar el bloque autónomo de `08. Microservicios`: ejercicios, solución
+sugerida y análisis de costos.
