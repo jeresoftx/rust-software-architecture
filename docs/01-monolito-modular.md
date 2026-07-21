@@ -3,13 +3,13 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#5](https://github.com/jeresoftx/rust-software-architecture/issues/5) |
+| Issue | [#5](https://github.com/jeresoftx/rust-software-architecture/issues/5), [#7](https://github.com/jeresoftx/rust-software-architecture/issues/7), [#10](https://github.com/jeresoftx/rust-software-architecture/issues/10) |
 | PR | Pendiente |
 | Milestone | `01. Monolito modular` |
 | Módulo Rust | `src/modular_monolith.rs` |
-| Ejemplos | Pendiente |
+| Ejemplos | `examples/01_basico.rs`, `examples/01_intermedio.rs`, `examples/01_realista.rs` |
 | Soluciones | Pendiente |
-| Diagramas | Pendiente |
+| Diagramas | `diagrams/01-monolito-modular.md` |
 
 Un monolito modular es un sistema que se despliega como una sola unidad, pero
 se diseña internamente como un conjunto de módulos con límites explícitos. La
@@ -155,11 +155,61 @@ sistema aumenta el costo de coordinación.
 
 ## 9. Diagrama Mermaid
 
-Pendiente del issue de capítulo, diagrama y ejemplos.
+El diagrama completo vive en
+[`diagrams/01-monolito-modular.md`](../diagrams/01-monolito-modular.md).
+
+```mermaid
+flowchart LR
+    subgraph "Un solo despliegue"
+        subgraph "booking"
+            B["BookingService"]
+            R["Reservation"]
+        end
+
+        subgraph "pricing"
+            P["PricingService"]
+            Q["Quote"]
+        end
+
+        subgraph "inventory"
+            I["Inventory"]
+            C["Capacity"]
+        end
+    end
+
+    P --> Q
+    B --> Q
+    B --> I
+    I --> C
+    B --> R
+```
+
+La flecha importante no cruza una red. Cruza una frontera de módulo. `booking`
+usa `Quote` e `Inventory` mediante APIs públicas pequeñas; no edita campos
+internos ni decide cómo se guarda la capacidad.
 
 ## 10. Ejemplos progresivos
 
-Pendientes del issue de capítulo, diagrama y ejemplos.
+Los ejemplos están pensados para leerse y ejecutarse en orden:
+
+| Nivel | Archivo | Qué enseña |
+|-------|---------|------------|
+| Básico | `examples/01_basico.rs` | Crear inventario y leer disponibilidad sin mutar estado |
+| Intermedio | `examples/01_intermedio.rs` | Confirmar una reserva mediante contratos internos |
+| Realista | `examples/01_realista.rs` | Rechazar una cotización expirada sin consumir inventario |
+
+Ejecutarlos:
+
+```bash
+cargo run --example 01_basico
+cargo run --example 01_intermedio
+cargo run --example 01_realista
+```
+
+El ejemplo básico muestra el primer límite: consultar disponibilidad no cambia
+estado. El ejemplo intermedio muestra colaboración entre módulos. El ejemplo
+realista enseña que un fallo de reglas no debe dejar efectos secundarios
+parciales.
 
 ## 11. Ejercicios
 
@@ -170,8 +220,9 @@ Pendientes del issue de ejercicios, soluciones y costos.
 Estado actual: `draft`.
 
 Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
-Rust mínimo; todavía requiere ejemplos, diagrama, ejercicios, soluciones y
-revisión humana explícita de Joel antes de avanzar de estado editorial.
+Rust mínimo, diagrama y ejemplos progresivos; todavía requiere ejercicios,
+soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
+de estado editorial.
 
 ### Decisiones registradas
 
