@@ -22,17 +22,18 @@ a sostener negocio, equipos y cambios.
 
 El repositorio acaba de entrar en desarrollo. Los capítulos `01. Monolito
 modular`, `02. Arquitectura hexagonal`, `03. Clean Architecture`,
-`04. Domain-Driven Design`, `05. CQRS` y `06. Event sourcing` están en estado
-`draft`; `03. Clean Architecture` ya cuenta con modelo Rust mínimo, diagrama,
-ejemplos progresivos, ejercicios, solución sugerida y análisis de costos. `04.
-Domain-Driven Design` ya cuenta con especificación conceptual, modelo Rust
-mínimo, diagrama, ejemplos progresivos, ejercicios, solución sugerida y análisis
-de costos. `05. CQRS` ya cuenta con especificación conceptual, modelo Rust
-mínimo, diagrama Mermaid, ejemplos progresivos, ejercicios, solución sugerida y
-análisis de costos. `06. Event sourcing` ya cuenta con especificación
-conceptual, modelo Rust mínimo, diagrama Mermaid, ejemplos progresivos,
-ejercicios, solución sugerida y análisis de costos. El resto de capítulos sigue
-en estado `planned`.
+`04. Domain-Driven Design`, `05. CQRS`, `06. Event sourcing` y `07.
+Arquitectura orientada a eventos` están en estado `draft`; `03. Clean
+Architecture` ya cuenta con modelo Rust mínimo, diagrama, ejemplos progresivos,
+ejercicios, solución sugerida y análisis de costos. `04. Domain-Driven Design`
+ya cuenta con especificación conceptual, modelo Rust mínimo, diagrama, ejemplos
+progresivos, ejercicios, solución sugerida y análisis de costos. `05. CQRS` ya
+cuenta con especificación conceptual, modelo Rust mínimo, diagrama Mermaid,
+ejemplos progresivos, ejercicios, solución sugerida y análisis de costos. `06.
+Event sourcing` ya cuenta con especificación conceptual, modelo Rust mínimo,
+diagrama Mermaid, ejemplos progresivos, ejercicios, solución sugerida y análisis
+de costos. `07. Arquitectura orientada a eventos` ya cuenta con especificación
+conceptual. El resto de capítulos sigue en estado `planned`.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
 de Joel sigue siendo obligatoria antes de considerar el curso listo para
@@ -87,7 +88,7 @@ Este repositorio no reemplaza:
 | 04 | Domain-Driven Design | `src/domain_driven_design.rs` | draft |
 | 05 | CQRS | `src/cqrs.rs` | draft |
 | 06 | Event sourcing | `src/event_sourcing.rs` | draft |
-| 07 | Arquitectura orientada a eventos | `src/event_driven_architecture.rs` | planned |
+| 07 | Arquitectura orientada a eventos | `src/event_driven_architecture.rs` | draft |
 | 08 | Microservicios | `src/microservices.rs` | planned |
 
 Estados posibles: `planned`, `draft`, `implemented`, `tested`, `benchmarked`,
