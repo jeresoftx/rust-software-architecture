@@ -9,9 +9,9 @@ orienta el avance, pero no convierte el curso en una carrera por terminar.
 ## Estado actual
 
 El repositorio acaba de entrar en desarrollo. La estructura inicial ya declara
-la frontera del curso, la ruta de lectura, el glosario base, el flujo de trabajo
-con GitHub, el modo autónomo con revisión diferida y el plan maestro en forma de
-checklist.
+la frontera del curso, la ruta de lectura, el glosario base, la plantilla de
+capítulo, el flujo de trabajo con GitHub, el modo autónomo con revisión diferida
+y el plan maestro en forma de checklist.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone
