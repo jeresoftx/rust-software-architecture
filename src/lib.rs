@@ -3,6 +3,7 @@ pub const COURSE_NAME: &str = "Arquitectura de software en Rust";
 pub mod clean_architecture;
 pub mod cqrs;
 pub mod domain_driven_design;
+pub mod event_sourcing;
 pub mod hexagonal_architecture;
 pub mod modular_monolith;
 
@@ -95,6 +96,15 @@ mod tests {
             InMemoryReservationRepository as DddReservationRepository, ReservationRepository,
         },
         DomainDrivenDesignError,
+    };
+    use super::event_sourcing::{
+        commands::{
+            CancelReservation as EsCancelReservation, ConfirmReservation as EsConfirmReservation,
+            RequestReservation,
+        },
+        events::{ReservationEvent, ReservationEventKind},
+        stream::ReservationEventStream,
+        EventSourcingError, Reservation, ReservationStatus as EventSourcedReservationStatus,
     };
     use super::hexagonal_architecture::{
         adapters::{FailingReservationStore, InMemoryReservationStore},
@@ -409,5 +419,70 @@ mod tests {
 
         assert_eq!(projection.summary_count(), before);
         assert_eq!(projection.lag(), lag_before);
+    }
+
+    #[test]
+    fn event_sourcing_appends_events_and_rehydrates_reservation() {
+        let mut stream = ReservationEventStream::default();
+
+        let requested = RequestReservation::new("RSV-ES-001", "flight-mx-es", "customer-es-001")
+            .execute(&mut stream)
+            .expect("requested reservation");
+        let confirmed = EsConfirmReservation::new("RSV-ES-001")
+            .execute(&mut stream)
+            .expect("confirmed reservation");
+
+        assert_eq!(requested.version(), 1);
+        assert_eq!(confirmed.version(), 2);
+        assert_eq!(stream.len(), 2);
+
+        let reservation = Reservation::rehydrate(stream.events()).expect("rehydrated reservation");
+
+        assert_eq!(reservation.id(), "RSV-ES-001");
+        assert_eq!(
+            reservation.status(),
+            EventSourcedReservationStatus::Confirmed
+        );
+    }
+
+    #[test]
+    fn event_sourcing_rejects_confirmation_without_request() {
+        let mut stream = ReservationEventStream::default();
+
+        let result = EsConfirmReservation::new("RSV-ES-002").execute(&mut stream);
+
+        assert_eq!(result, Err(EventSourcingError::ReservationNotRequested));
+        assert_eq!(stream.len(), 0);
+    }
+
+    #[test]
+    fn event_sourcing_rejects_invalid_history_during_rehydration() {
+        let invalid_history = vec![ReservationEvent::new(
+            1,
+            "RSV-ES-003",
+            ReservationEventKind::ReservationConfirmed,
+        )];
+
+        let result = Reservation::rehydrate(&invalid_history);
+
+        assert_eq!(result, Err(EventSourcingError::InvalidHistory));
+    }
+
+    #[test]
+    fn event_sourcing_stream_keeps_audit_history_append_only() {
+        let mut stream = ReservationEventStream::default();
+
+        RequestReservation::new("RSV-ES-004", "flight-mx-es", "customer-es-004")
+            .execute(&mut stream)
+            .expect("requested reservation");
+        EsCancelReservation::new("RSV-ES-004")
+            .execute(&mut stream)
+            .expect("cancelled reservation");
+
+        let audit = stream.events();
+
+        assert_eq!(audit.len(), 2);
+        assert_eq!(audit[0].kind(), ReservationEventKind::ReservationRequested);
+        assert_eq!(audit[1].kind(), ReservationEventKind::ReservationCancelled);
     }
 }
