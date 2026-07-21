@@ -44,7 +44,7 @@ La progresión esperada es:
 
 | # | Capítulo | Estado |
 |---|----------|--------|
-| 01 | Monolito modular | planned |
+| 01 | Monolito modular | draft |
 | 02 | Arquitectura hexagonal | planned |
 | 03 | Clean Architecture | planned |
 | 04 | Domain-Driven Design | planned |
@@ -71,5 +71,5 @@ La progresión esperada es:
 
 ## Siguiente paso natural
 
-Tomar el primer issue de gobernanza y comenzar el desarrollo por bloques
-autónomos cuando Joel lo autorice para este repositorio.
+Continuar el bloque autónomo de `01. Monolito modular`: modelo Rust mínimo,
+capítulo con diagrama y ejemplos, ejercicios, soluciones y costos.
