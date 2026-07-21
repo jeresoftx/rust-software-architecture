@@ -80,8 +80,8 @@ Este repositorio no reemplaza:
 | 07 | Arquitectura orientada a eventos | `src/event_driven_architecture.rs` | planned |
 | 08 | Microservicios | `src/microservices.rs` | planned |
 
-Estados posibles: `planned`, `draft`, `implemented`, `tested`,
-`benchmarked`, `reviewed`, `published`.
+Estados posibles: `planned`, `draft`, `implemented`, `tested`, `benchmarked`,
+`reviewed`, `published`.
 
 ## Estructura esperada
 

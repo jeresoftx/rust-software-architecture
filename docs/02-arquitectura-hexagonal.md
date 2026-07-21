@@ -3,12 +3,12 @@
 | Campo | Valor |
 |-------|-------|
 | Estado | `draft` |
-| Issue | [#8](https://github.com/jeresoftx/rust-software-architecture/issues/8), [#9](https://github.com/jeresoftx/rust-software-architecture/issues/9), [#12](https://github.com/jeresoftx/rust-software-architecture/issues/12) |
+| Issue | [#8](https://github.com/jeresoftx/rust-software-architecture/issues/8), [#9](https://github.com/jeresoftx/rust-software-architecture/issues/9), [#11](https://github.com/jeresoftx/rust-software-architecture/issues/11), [#12](https://github.com/jeresoftx/rust-software-architecture/issues/12) |
 | PR | Pendiente |
 | Milestone | `02. Arquitectura hexagonal` |
 | Módulo Rust | `src/hexagonal_architecture.rs` |
 | Ejemplos | `examples/02_basico.rs`, `examples/02_intermedio.rs`, `examples/02_realista.rs` |
-| Soluciones | Pendiente |
+| Soluciones | `examples/soluciones/02_arquitectura_hexagonal.rs` |
 | Diagramas | `diagrams/02-arquitectura-hexagonal.md` |
 
 La arquitectura hexagonal organiza el sistema alrededor de un núcleo de
@@ -125,6 +125,12 @@ La arquitectura hexagonal agrega nombres y contratos:
 Su beneficio principal es hacer sustituible la infraestructura. Su costo
 principal es la ceremonia cuando el problema todavía no exige esa sustitución.
 
+El análisis de costos vive también en
+[`benches/02-arquitectura-hexagonal-costos.md`](../benches/02-arquitectura-hexagonal-costos.md).
+Este capítulo no usa benchmark de throughput porque el costo relevante no es la
+velocidad de una llamada a trait, sino la claridad de la frontera y la capacidad
+de sustituir infraestructura sin tocar el caso de uso.
+
 ## 7. Modos de falla
 
 La arquitectura hexagonal falla cuando:
@@ -197,16 +203,73 @@ debe ocultarse como éxito del caso de uso.
 
 ## 11. Ejercicios
 
-Pendientes del issue de ejercicios, soluciones y costos.
+### Nivel 1: ubicar puertos y adaptadores
+
+Lee `src/hexagonal_architecture.rs` y responde:
+
+1. ¿Qué módulo contiene el dominio?
+2. ¿Qué trait funciona como puerto de salida?
+3. ¿Qué tipo representa el caso de uso?
+4. ¿Qué adaptadores implementan el puerto?
+5. ¿Dónde se rechaza una entrada inválida antes de tocar infraestructura?
+
+La meta es reconocer la dirección de dependencia, no repetir el dibujo del
+hexágono.
+
+### Nivel 2: crear otro adaptador
+
+Crea un adaptador `CountingReservationStore` que implemente `ReservationStore` y
+solo cuente cuántas reservas se intentaron guardar. Después úsalo en una prueba
+del caso de uso.
+
+Pistas:
+
+- el adaptador debe vivir fuera del caso de uso;
+- el caso de uso no debe cambiar;
+- la prueba debe demostrar que una entrada inválida no incrementa el contador.
+
+### Nivel 3: defender un puerto
+
+Imagina que ahora la confirmación debe publicar un evento `ReservaConfirmada`.
+Antes de escribir código, responde:
+
+- ¿conviene agregar otro puerto de salida?
+- ¿debe el caso de uso guardar y publicar en la misma operación?
+- ¿qué pasa si guardar funciona pero publicar falla?
+- ¿qué costo introduce ocultar esa falla?
+- ¿en qué momento esta discusión se vuelve tema de arquitectura orientada a
+  eventos?
+
+Una buena respuesta nombra límites transaccionales, errores visibles y costo
+operativo. No basta decir "agregaría un EventPublisher".
+
+## Solución sugerida
+
+La solución de referencia vive en
+[`examples/soluciones/02_arquitectura_hexagonal.rs`](../examples/soluciones/02_arquitectura_hexagonal.rs).
+También se compila como `examples/02_solucion.rs`.
+
+Una buena solución conserva estas ideas:
+
+- el caso de uso `ConfirmBooking` no cambia;
+- el nuevo adaptador implementa `ReservationStore`;
+- el adaptador puede agregar auditoría sin contaminar el dominio;
+- el núcleo sigue hablando de reservas, no de logs, HTTP, SQL o archivos.
+
+Para el ejercicio del evento, una respuesta razonable es reconocer que publicar
+un evento probablemente necesita otro puerto de salida, pero que el capítulo no
+debe resolver todavía consistencia entre persistencia y publicación. Esa tensión
+se estudiará con más detalle en arquitectura orientada a eventos y event
+sourcing.
 
 ## 12. Cierre editorial
 
 Estado actual: `draft`.
 
 Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
-Rust mínimo, diagrama y ejemplos progresivos; todavía requiere ejercicios,
-soluciones, costos finales y revisión humana explícita de Joel antes de avanzar
-de estado editorial.
+Rust mínimo, diagrama, ejemplos progresivos, ejercicios, solución sugerida y
+análisis de costos. Requiere revisión humana explícita de Joel antes de avanzar
+a `reviewed` o `published`.
 
 ### Decisiones registradas
 
@@ -216,3 +279,5 @@ de estado editorial.
 - El capítulo se centra en puertos y adaptadores como contratos de intención,
   no como interfaces decorativas.
 - El núcleo no debe depender de adaptadores concretos.
+- Este capítulo no usa benchmark de throughput; declara un benchmark educativo
+  de sustitución de infraestructura, claridad de frontera y errores visibles.
