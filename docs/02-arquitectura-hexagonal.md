@@ -81,7 +81,7 @@ framework, la base de datos o el proveedor externo.
 
 ## 4. Modelo Rust esperado
 
-El modelo mínimo debe representar:
+El modelo mínimo representa:
 
 - un caso de uso `ConfirmBooking`;
 - un puerto de salida para guardar reservas;
@@ -93,6 +93,10 @@ El modelo mínimo debe representar:
 El objetivo no es crear un framework hexagonal. El objetivo es que el estudiante
 vea cómo una regla se prueba sin infraestructura real y cómo un adaptador puede
 cambiar sin tocar el núcleo.
+
+El modelo se implementa en `src/hexagonal_architecture.rs` y se valida con
+pruebas que cubren confirmación mediante puerto de salida, rechazo de entradas
+inválidas antes de tocar adaptadores y propagación de fallas del adaptador.
 
 ## 5. Invariantes
 
@@ -155,9 +159,10 @@ Pendientes del issue de ejercicios, soluciones y costos.
 
 Estado actual: `draft`.
 
-Este capítulo todavía no está `reviewed` ni `published`. Requiere modelo Rust
-mínimo, ejemplos, diagrama, ejercicios, soluciones, costos finales y revisión
-humana explícita de Joel antes de avanzar de estado editorial.
+Este capítulo todavía no está `reviewed` ni `published`. Ya cuenta con modelo
+Rust mínimo; todavía requiere ejemplos, diagrama, ejercicios, soluciones, costos
+finales y revisión humana explícita de Joel antes de avanzar de estado
+editorial.
 
 ### Decisiones registradas
 
