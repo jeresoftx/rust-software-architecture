@@ -20,27 +20,12 @@ a sostener negocio, equipos y cambios.
 
 ## Estado editorial
 
-El repositorio acaba de entrar en desarrollo. Los capítulos `01. Monolito
-modular`, `02. Arquitectura hexagonal`, `03. Clean Architecture`,
-`04. Domain-Driven Design`, `05. CQRS`, `06. Event sourcing` y `07.
-Arquitectura orientada a eventos` y `08. Microservicios` están en estado
-`draft`; `03. Clean
-Architecture` ya cuenta con modelo Rust mínimo, diagrama, ejemplos progresivos,
-ejercicios, solución sugerida y análisis de costos. `04. Domain-Driven Design`
-ya cuenta con especificación conceptual, modelo Rust mínimo, diagrama, ejemplos
-progresivos, ejercicios, solución sugerida y análisis de costos. `05. CQRS` ya
-cuenta con especificación conceptual, modelo Rust mínimo, diagrama Mermaid,
-ejemplos progresivos, ejercicios, solución sugerida y análisis de costos. `06.
-Event sourcing` ya cuenta con especificación conceptual, modelo Rust mínimo,
-diagrama Mermaid, ejemplos progresivos, ejercicios, solución sugerida y análisis
-de costos. `07. Arquitectura orientada a eventos` ya cuenta con especificación
-conceptual, modelo Rust mínimo, diagrama Mermaid, ejemplos progresivos,
-ejercicios, solución sugerida y análisis de costos. El resto de capítulos sigue
-en estado `planned`. `08. Microservicios` ya cuenta con especificación
-conceptual de límites de servicio, datos propios, operación, costos,
-alternativas, invariantes y modos de falla, además de un modelo Rust mínimo
-para contratos, ownership de datos y falla remota visible, diagrama Mermaid y
-ejemplos progresivos, ejercicios, solución sugerida y análisis de costos.
+Los ocho capítulos del curso están en estado `draft`. Cada uno cuenta con
+especificación conceptual, modelo Rust mínimo, diagrama Mermaid, ejemplos
+progresivos, ejercicios, solución sugerida y análisis educativo de costos.
+
+El cierre actual no publica el curso: prepara navegación, consistencia de
+estados y verificación para que Joel pueda hacer revisión humana explícita.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
 de Joel sigue siendo obligatoria antes de considerar el curso listo para
@@ -99,7 +84,8 @@ Este repositorio no reemplaza:
 | 08 | Microservicios | `src/microservices.rs` | draft |
 
 Estados posibles: `planned`, `draft`, `implemented`, `tested`, `benchmarked`,
-`reviewed`, `published`.
+`reviewed`, `published`. En este repositorio, `reviewed` y `published` quedan
+reservados para revisión humana explícita de Joel.
 
 ## Estructura esperada
 

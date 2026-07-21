@@ -1,6 +1,6 @@
 # Plan de trabajo: rust-software-architecture
 
-> Estado: checklist operativo inicial.  
+> Estado: cierre editorial en progreso.
 > Curso: Arquitectura de software en Rust.  
 > RFC: RFC-0001 §10, §13, §14, §15, §17 y §20.
 
@@ -40,77 +40,76 @@ GitHub la reinicia, se debe restaurar antes de comenzar un bloque autónomo.
 
 ### 00. Gobernanza y planificación
 
-- [ ] Documentar manifiesto, frontera y caso común del curso.
-- [ ] Preparar plantilla de capítulo de arquitectura.
-- [ ] Documentar flujo autónomo y trazabilidad GitHub.
-- [ ] Verificar que el GitHub Project esté asociado al repo y agrupado por
+- [x] Documentar manifiesto, frontera y caso común del curso.
+- [x] Preparar plantilla de capítulo de arquitectura.
+- [x] Documentar flujo autónomo y trazabilidad GitHub.
+- [x] Verificar que el GitHub Project esté asociado al repo y agrupado por
       `Milestone`.
-- [ ] Completar glosario base y ruta de lectura.
+- [x] Completar glosario base y ruta de lectura.
 
 ### 01. Monolito modular
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para módulos y límites internos.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para módulos y límites internos.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 02. Arquitectura hexagonal
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para puertos y adaptadores.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para puertos y adaptadores.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 03. Clean Architecture
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para casos de uso y dirección de dependencias.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para casos de uso y dirección de dependencias.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 04. Domain-Driven Design
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para entidades, value objects y agregados.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para entidades, value objects y agregados.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 05. CQRS
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para comandos, consultas y proyecciones.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para comandos, consultas y proyecciones.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 06. Event sourcing
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para eventos, stream y rehidratación.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para eventos, stream y rehidratación.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 07. Arquitectura orientada a eventos
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para productores, consumidores y contratos.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para productores, consumidores y contratos.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 08. Microservicios
 
-- [ ] Especificar concepto, problema, alternativas e invariantes.
-- [ ] Implementar modelo Rust mínimo para límites de servicio y comunicación.
-- [ ] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
-- [ ] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
+- [x] Especificar concepto, problema, alternativas e invariantes.
+- [x] Implementar modelo Rust mínimo para límites de servicio y comunicación.
+- [x] Escribir capítulo, diagrama Mermaid y ejemplos progresivos.
+- [x] Agregar ejercicios, soluciones y benchmark educativo o nota de no aplicación.
 
 ### 09. Cierre editorial y publicación
 
-- [ ] Alinear README, ROADMAP, manifiesto y estados de capítulos.
+- [x] Alinear README, ROADMAP, manifiesto y estados de capítulos.
 - [ ] Preparar navegación mdBook y verificación de enlaces.
 - [ ] Documentar publicación candidata, riesgos y revisión humana necesaria.
 
 ## Siguiente paso natural
 
-Crear los milestones e issues de GitHub con este checklist, todos asignados a
-`jeresoftx`, con labels de tipo, capítulo o fase, y estado. Después, comenzar
-por el primer issue de gobernanza.
+Preparar navegación mdBook y verificación de enlaces del curso sin marcar
+capítulos como `reviewed` ni `published`.

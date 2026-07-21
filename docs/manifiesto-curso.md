@@ -64,3 +64,15 @@ vivir en el curso vecino correspondiente.
 Un capítulo puede estar técnicamente completo y aun así no estar publicado.
 `reviewed` y `published` requieren revisión humana explícita de Joel, conforme
 a RFC-0001 §20.
+
+## Estado editorial actual
+
+Los ocho capítulos están en estado `draft`: ya tienen explicación conceptual,
+modelo Rust mínimo, diagrama, ejemplos, ejercicios, solución sugerida y análisis
+de costos. Ese estado significa "material construido y verificable", no
+"contenido aprobado".
+
+El cierre editorial puede preparar navegación, enlaces, manifiestos y una
+publicación candidata, pero no puede marcar el curso como `reviewed` ni
+`published`. La regla rectora sigue siendo la misma: la IA acelera, el criterio
+humano decide.

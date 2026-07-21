@@ -22,49 +22,49 @@ pub const PLANNED_CHAPTERS: [PlannedChapter; 8] = [
         number: 1,
         slug: "monolito-modular",
         title: "Monolito modular",
-        status: "planned",
+        status: "draft",
     },
     PlannedChapter {
         number: 2,
         slug: "arquitectura-hexagonal",
         title: "Arquitectura hexagonal",
-        status: "planned",
+        status: "draft",
     },
     PlannedChapter {
         number: 3,
         slug: "clean-architecture",
         title: "Clean Architecture",
-        status: "planned",
+        status: "draft",
     },
     PlannedChapter {
         number: 4,
         slug: "domain-driven-design",
         title: "Domain-Driven Design",
-        status: "planned",
+        status: "draft",
     },
     PlannedChapter {
         number: 5,
         slug: "cqrs",
         title: "CQRS",
-        status: "planned",
+        status: "draft",
     },
     PlannedChapter {
         number: 6,
         slug: "event-sourcing",
         title: "Event sourcing",
-        status: "planned",
+        status: "draft",
     },
     PlannedChapter {
         number: 7,
         slug: "arquitectura-orientada-a-eventos",
         title: "Arquitectura orientada a eventos",
-        status: "planned",
+        status: "draft",
     },
     PlannedChapter {
         number: 8,
         slug: "microservicios",
         title: "Microservicios",
-        status: "planned",
+        status: "draft",
     },
 ];
 
@@ -144,11 +144,11 @@ mod tests {
     }
 
     #[test]
-    fn exposes_eight_planned_chapters() {
+    fn exposes_eight_draft_chapters() {
         assert_eq!(super::chapter_count(), 8);
         assert!(super::PLANNED_CHAPTERS
             .iter()
-            .all(|chapter| chapter.status == "planned"));
+            .all(|chapter| chapter.status == "draft"));
     }
 
     #[test]
