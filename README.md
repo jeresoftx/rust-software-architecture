@@ -20,8 +20,8 @@ a sostener negocio, equipos y cambios.
 
 ## Estado editorial
 
-El repositorio acaba de entrar en desarrollo. Todos los capítulos están en
-estado `planned`.
+El repositorio acaba de entrar en desarrollo. El capítulo `01. Monolito modular`
+está en estado `draft`; el resto de capítulos sigue en estado `planned`.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
 de Joel sigue siendo obligatoria antes de considerar el curso listo para
