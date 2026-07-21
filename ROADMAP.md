@@ -41,9 +41,9 @@ requiere revisión humana antes de subir de estado editorial.
 
 El capítulo `05. CQRS` está en estado `draft`: ya cuenta con especificación
 conceptual de comandos, consultas, proyecciones, modelos de lectura, problema,
-alternativas, invariantes, costos y modos de falla. Todavía requiere modelo
-Rust mínimo, diagrama, ejemplos, ejercicios, solución sugerida y análisis de
-costos.
+alternativas, invariantes, costos y modos de falla, además de un modelo Rust
+mínimo con pruebas para comando, evento, proyección y consulta. Todavía requiere
+diagrama, ejemplos, ejercicios, solución sugerida y análisis de costos.
 
 El plan de trabajo debe vivir en GitHub como milestones e issues antes de tocar
 código de curso. Cada paso queda asignado a `jeresoftx`, asociado al milestone

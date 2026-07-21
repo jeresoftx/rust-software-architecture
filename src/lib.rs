@@ -1,6 +1,7 @@
 pub const COURSE_NAME: &str = "Arquitectura de software en Rust";
 
 pub mod clean_architecture;
+pub mod cqrs;
 pub mod domain_driven_design;
 pub mod hexagonal_architecture;
 pub mod modular_monolith;
@@ -75,6 +76,13 @@ mod tests {
         application::{ConfirmReservation, ConfirmReservationRequest},
         domain::ReservationStatus as CleanReservationStatus,
         CleanArchitectureError,
+    };
+    use super::cqrs::{
+        commands::{ConfirmReservation as CqrsConfirmReservation, ReservationWriteModel},
+        events::ReservationConfirmed,
+        queries::FindConfirmedReservations,
+        read_model::{ProjectionLag, ReservationSummaryProjection},
+        CqrsError,
     };
     use super::domain_driven_design::{
         domain::{
@@ -339,5 +347,67 @@ mod tests {
             repository.find(reservation.id()).expect("stored aggregate"),
             &reservation
         );
+    }
+
+    #[test]
+    fn cqrs_command_confirms_reservation_and_emits_event() {
+        let mut write_model = ReservationWriteModel::default();
+
+        let event =
+            CqrsConfirmReservation::new("RSV-CQRS-001", "flight-mx-cqrs", "customer-cqrs-001")
+                .execute(&mut write_model)
+                .expect("confirmed reservation");
+
+        assert_eq!(
+            event,
+            ReservationConfirmed {
+                reservation_id: "RSV-CQRS-001".to_owned(),
+                offer_id: "flight-mx-cqrs".to_owned(),
+                customer_id: "customer-cqrs-001".to_owned(),
+            }
+        );
+        assert_eq!(write_model.confirmed_count(), 1);
+    }
+
+    #[test]
+    fn cqrs_invalid_command_does_not_change_write_model() {
+        let mut write_model = ReservationWriteModel::default();
+
+        let result = CqrsConfirmReservation::new("", "flight-mx-cqrs", "customer-cqrs-001")
+            .execute(&mut write_model);
+
+        assert_eq!(result, Err(CqrsError::InvalidCommand));
+        assert_eq!(write_model.confirmed_count(), 0);
+    }
+
+    #[test]
+    fn cqrs_projection_builds_read_model_from_events() {
+        let mut projection = ReservationSummaryProjection::default();
+        projection.apply(ReservationConfirmed {
+            reservation_id: "RSV-CQRS-002".to_owned(),
+            offer_id: "flight-mx-cqrs".to_owned(),
+            customer_id: "customer-cqrs-002".to_owned(),
+        });
+
+        let query = FindConfirmedReservations::new(&projection);
+        let summaries = query.execute();
+
+        assert_eq!(summaries.len(), 1);
+        assert_eq!(summaries[0].reservation_id(), "RSV-CQRS-002");
+        assert_eq!(projection.lag(), ProjectionLag::CaughtUp);
+    }
+
+    #[test]
+    fn cqrs_query_does_not_mutate_projection() {
+        let mut projection = ReservationSummaryProjection::default();
+        projection.mark_lagging();
+
+        let before = projection.summary_count();
+        let lag_before = projection.lag();
+        let query = FindConfirmedReservations::new(&projection);
+        let _ = query.execute();
+
+        assert_eq!(projection.summary_count(), before);
+        assert_eq!(projection.lag(), lag_before);
     }
 }

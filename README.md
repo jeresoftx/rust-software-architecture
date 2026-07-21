@@ -26,7 +26,8 @@ modular`, `02. Arquitectura hexagonal`, `03. Clean Architecture`,
 Architecture` ya cuenta con modelo Rust mínimo, diagrama, ejemplos progresivos,
 ejercicios, solución sugerida y análisis de costos. `04. Domain-Driven Design`
 ya cuenta con especificación conceptual, modelo Rust mínimo, diagrama, ejemplos
-progresivos, ejercicios, solución sugerida y análisis de costos. El resto de
+progresivos, ejercicios, solución sugerida y análisis de costos. `05. CQRS` ya
+cuenta con especificación conceptual y modelo Rust mínimo. El resto de
 capítulos sigue en estado `planned`.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
