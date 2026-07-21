@@ -126,6 +126,7 @@ Leer primero:
 4. [`docs/manifiesto-curso.md`](./docs/manifiesto-curso.md)
 5. [`docs/00-caso-comun-y-frontera.md`](./docs/00-caso-comun-y-frontera.md)
 6. [`docs/plantilla-capitulo-arquitectura.md`](./docs/plantilla-capitulo-arquitectura.md)
+7. [`docs/09-navegacion-y-enlaces.md`](./docs/09-navegacion-y-enlaces.md)
 
 Ejecutar tests:
 

@@ -106,10 +106,10 @@ GitHub la reinicia, se debe restaurar antes de comenzar un bloque autónomo.
 ### 09. Cierre editorial y publicación
 
 - [x] Alinear README, ROADMAP, manifiesto y estados de capítulos.
-- [ ] Preparar navegación mdBook y verificación de enlaces.
+- [x] Preparar navegación mdBook y verificación de enlaces.
 - [ ] Documentar publicación candidata, riesgos y revisión humana necesaria.
 
 ## Siguiente paso natural
 
-Preparar navegación mdBook y verificación de enlaces del curso sin marcar
-capítulos como `reviewed` ni `published`.
+Documentar publicación candidata, riesgos y revisión humana necesaria sin
+marcar capítulos como `reviewed` ni `published`.
