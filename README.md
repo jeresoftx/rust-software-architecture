@@ -25,8 +25,9 @@ modular`, `02. Arquitectura hexagonal`, `03. Clean Architecture` y
 `04. Domain-Driven Design` están en estado `draft`; `03. Clean Architecture` ya
 cuenta con modelo Rust mínimo, diagrama, ejemplos progresivos, ejercicios,
 solución sugerida y análisis de costos. `04. Domain-Driven Design` ya cuenta
-con especificación conceptual, modelo Rust mínimo, diagrama y ejemplos
-progresivos. El resto de capítulos sigue en estado `planned`.
+con especificación conceptual, modelo Rust mínimo, diagrama, ejemplos
+progresivos, ejercicios, solución sugerida y análisis de costos. El resto de
+capítulos sigue en estado `planned`.
 
 Ningún capítulo está marcado como `reviewed` ni `published`: la revisión humana
 de Joel sigue siendo obligatoria antes de considerar el curso listo para
