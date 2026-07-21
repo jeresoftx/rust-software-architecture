@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "course": {
+    "id": "rust-software-architecture",
+    "title": "Arquitectura de software en Rust",
+    "slug": "software-architecture",
+    "repository": "https://github.com/jeresoftx/rust-software-architecture",
+    "collection": "camino troncal",
+    "semester": 5,
+    "status": "planned",
+    "language": "es-MX",
+    "summary": "Curso de Jeresoft Academy para estudiar límites, módulos, contratos, estilos arquitectónicos, evolución técnica y decisiones sostenibles con modelos Rust verificables.",
+    "relatedCourses": [
+      "rust-design-patterns",
+      "rust-concurrency",
+      "rust-database-internals",
+      "rust-distributed-systems",
+      "rust-system-design",
+      "rust-cloud",
+      "rust-ai-engineering",
+      "rust-travel"
+    ]
+  },
+  "assets": {
+    "basePath": "/assets/illustrations/courses/software-architecture",
+    "status": "pending"
+  },
+  "chapters": [
+    {
+      "number": 1,
+      "id": "monolito-modular",
+      "title": "Monolito modular",
+      "slug": "monolito-modular",
+      "status": "planned",
+      "milestone": "01. Monolito modular",
+      "module": "src/modular_monolith.rs",
+      "themes": ["módulos", "límites", "cohesión", "despliegue único"]
+    },
+    {
+      "number": 2,
+      "id": "arquitectura-hexagonal",
+      "title": "Arquitectura hexagonal",
+      "slug": "arquitectura-hexagonal",
+      "status": "planned",
+      "milestone": "02. Arquitectura hexagonal",
+      "module": "src/hexagonal_architecture.rs",
+      "themes": ["puertos", "adaptadores", "infraestructura", "testabilidad"]
+    },
+    {
+      "number": 3,
+      "id": "clean-architecture",
+      "title": "Clean Architecture",
+      "slug": "clean-architecture",
+      "status": "planned",
+      "milestone": "03. Clean Architecture",
+      "module": "src/clean_architecture.rs",
+      "themes": ["casos de uso", "entidades", "dependencias", "capas"]
+    },
+    {
+      "number": 4,
+      "id": "domain-driven-design",
+      "title": "Domain-Driven Design",
+      "slug": "domain-driven-design",
+      "status": "planned",
+      "milestone": "04. Domain-Driven Design",
+      "module": "src/domain_driven_design.rs",
+      "themes": ["lenguaje ubicuo", "agregados", "value objects", "bounded contexts"]
+    },
+    {
+      "number": 5,
+      "id": "cqrs",
+      "title": "CQRS",
+      "slug": "cqrs",
+      "status": "planned",
+      "milestone": "05. CQRS",
+      "module": "src/cqrs.rs",
+      "themes": ["comandos", "consultas", "proyecciones", "modelos de lectura"]
+    },
+    {
+      "number": 6,
+      "id": "event-sourcing",
+      "title": "Event sourcing",
+      "slug": "event-sourcing",
+      "status": "planned",
+      "milestone": "06. Event sourcing",
+      "module": "src/event_sourcing.rs",
+      "themes": ["eventos", "streams", "rehidratación", "auditoría"]
+    },
+    {
+      "number": 7,
+      "id": "arquitectura-orientada-a-eventos",
+      "title": "Arquitectura orientada a eventos",
+      "slug": "arquitectura-orientada-a-eventos",
+      "status": "planned",
+      "milestone": "07. Arquitectura orientada a eventos",
+      "module": "src/event_driven_architecture.rs",
+      "themes": ["productores", "consumidores", "contratos", "integración"]
+    },
+    {
+      "number": 8,
+      "id": "microservicios",
+      "title": "Microservicios",
+      "slug": "microservicios",
+      "status": "planned",
+      "milestone": "08. Microservicios",
+      "module": "src/microservices.rs",
+      "themes": ["límites de servicio", "datos propios", "operación", "costos"]
+    }
+  ]
+}
